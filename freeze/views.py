@@ -18,9 +18,9 @@ def generate_static_site(request):
             value = writer.write(data, html_in_memory = True, zip_in_memory = True)
             
             #if zip_in_memory:
-            response = HttpResponse(value, mimetype = 'application/zip')
+            response = HttpResponse(value, content_type = 'application/zip')
             #else:
-            #   response = HttpResponse(open(settings.FREEZE_ZIP_PATH, 'r'), mimetype = 'application/zip')
+            #   response = HttpResponse(open(settings.FREEZE_ZIP_PATH, 'r'), content_type = 'application/zip')
             
             prefix = datetime.now().strftime('%Y%m%d_%H%M%S_')
             filename = settings.FREEZE_ZIP_NAME_WITH_PREFIX % (prefix, )
