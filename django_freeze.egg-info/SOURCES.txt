@@ -1,3 +1,6 @@
+LICENSE.txt
+MANIFEST.in
+README.md
 setup.cfg
 setup.py
 django_freeze.egg-info/PKG-INFO
@@ -16,3 +19,4 @@ freeze/writer.py
 freeze/management/__init__.py
 freeze/management/commands/__init__.py
 freeze/management/commands/generate_static_site.py
+freeze/templates/freeze/redirect.html

@@ -1,12 +1,12 @@
 Metadata-Version: 1.1
 Name: django-freeze
-Version: 0.1.1
+Version: 0.2.1
 Summary: django-freeze generates the static version of any site.
 Home-page: https://github.com/fabiocaccamo/django-freeze
 Author: Fabio Caccamo
 Author-email: fabio.caccamo@gmail.com
-License: UNKNOWN
-Download-URL: https://github.com/fabiocaccamo/django-freeze/archive/0.1.1.tar.gz
+License: MIT License
+Download-URL: https://github.com/fabiocaccamo/django-freeze/archive/0.2.1.tar.gz
 Description: UNKNOWN
 Keywords: django,freeze,static,site,generator,generate,convert,export,download,zip
 Platform: UNKNOWN
