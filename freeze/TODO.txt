@@ -1,0 +1,16 @@
+#TODO / FIX_ME
+#Documentation
+#Dependencies
+#pip install requests
+#pip install xmltodict
+#pip install BeautifulSoup
+
+fix FREEZE_REPORT_BROKEN_LINKS namings etc..
+admin download button
+
+TODO v2
+scp static site to remote ftp
+custom hooks (for example if you need to replace form urls)
+extra paths
+python 3 support
+multi thread
