@@ -1,14 +1,15 @@
 
 #!/usr/bin/env python
-from setuptools import setup, find_packages
+from setuptools import setup
 
 exec(open('freeze/version.py').read())
 
 
-
 setup(
     name='django-freeze',
-    packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    packages=['freeze'],
+    include_package_data=True,
+    license='MIT License',
     version=__version__,
     description='django-freeze generates the static version of any site.',
     author='Fabio Caccamo',
@@ -22,7 +23,6 @@ setup(
         'requests>=2.8.0',
         'xmltodict>=0.9.2',
     ],
-    include_package_data=True,
     classifiers=[]
 )
 
