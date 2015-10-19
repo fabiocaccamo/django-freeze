@@ -6,7 +6,7 @@ import os
 import requests
 import xmltodict
 
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from freeze import settings
 
@@ -65,7 +65,7 @@ def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = Fals
     
     urls = []
     
-    html_soup = BeautifulSoup(html)
+    html_soup = BeautifulSoup(html, 'html5lib')
           
     for url_node in html_soup.findAll('a'):
         url = url_node.get('href')

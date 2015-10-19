@@ -18,7 +18,7 @@ setup(
     keywords=['django', 'freeze', 'static', 'site', 'generator', 'generate', 'convert', 'export', 'download', 'zip'],
     install_requires=[
         'Django>=1.6.5,<1.9',
-        'BeautifulSoup>=3.2.1',
+        'beautifulsoup4>=4.4.1',
         'requests>=2.8.0',
         'xmltodict>=0.9.2',
     ],
