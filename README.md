@@ -3,6 +3,14 @@ django-freeze generates the static version of any django site.
 
 Just input ``python manage.py generate_static_site`` in the shelll :)
 
+##Features
+- Generate the static version of your django site (optionally already compressed in a .zip file)
+- Follow all urls founded in sitemap.xml and recursively all urls founded in each page
+- Follow redirects
+- Report invalid/broken urls
+- Possibility to exclude media/static files and specify for which apps include static files
+- Possibility to generate / download the static site using urls (only superuser and staff)
+
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
 - Django 1.6.5 through Django 1.8
@@ -33,7 +41,7 @@ FREEZE_USE_HTTPS = False
 FREEZE_SITEMAP_MODE = True
 
 #if True 'freeze' will follow and fetch recursively each link-url founded in each page
-FREEZE_FOLLOW_MODE = False
+FREEZE_FOLLOW_MODE = True
 
 #if true 'freeze' will send an email to managers containing the list of all invalid urls (404, 500, etc..)
 FREEZE_REPORT_INVALID_URLS = False
@@ -41,19 +49,19 @@ FREEZE_REPORT_INVALID_URLS = False
 #the invalid urls email report subject
 FREEZE_REPORT_INVALID_URLS_SUBJECT = '[freeze] invalid urls'
 
+#if True the generated site will contain also the MEDIA folder and all its content
+FREEZE_INCLUDE_MEDIA = True
+
+#if True the generated sitewill contain also the STATIC folder and all its content
+FREEZE_INCLUDE_STATIC = true
+
+#a tuple containing the list of the apps for which include static files, if empty or None all static files will be included
+FREEZE_INCLUDE_STATIC_APPS = ()
+
 #the name of the zip file created
 FREEZE_ZIP_NAME = 'freeze' 
-
-#if True the .zip created will contain also the MEDIA folder and all its content
-FREEZE_ZIP_INCLUDE_MEDIA = True
-
-#if True the .zip created will contain also the STATIC folder and all its content
-FREEZE_ZIP_INCLUDE_STATIC = true
-
-#a tuple containing the list of the apps for which include static files, if empty or None the static files of all installed-apps will be included
-FREEZE_ZIP_INCLUDE_STATIC_APPS = ()
 ```
-Add **freeze.urls** to ``urls.py`` if you want superusers and staff able to generate the static site using url.
+Add **freeze.urls** to ``urls.py`` if you want superusers and staff able to use freeze urls.
 
 ```python
 urlpatterns = patterns('',
@@ -70,8 +78,9 @@ urlpatterns = patterns('',
 Run ``python manage.py generate_static_site`` 
 
 ####URL
-Superusers and staff can **download a .zip** containing the generated static site using the following url: 
+Superusers and staff can use the following urls to **download a .zip** containing the generated static site or to just generate the static website.
 
+``/freeze/download-static-site/``
 ``/freeze/generate-static-site/``
 
 *(the time necessary to generate the static site depends on the size of the project)*
