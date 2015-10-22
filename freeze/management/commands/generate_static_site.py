@@ -2,18 +2,16 @@
 
 from django.core.management.base import BaseCommand
 
-from freeze import scanner, writer
+from freeze import controller
 
 
 class Command(BaseCommand):
     
-    help = u'Generate static site and zip it.'
+    help = u'Generate static site.'
     
     def handle(self, **options):
         
-        data = scanner.scan()
-        
-        writer.write(data, html_in_memory = True)
+        controller.generate_static_site()
         
         return
         
