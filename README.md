@@ -1,7 +1,7 @@
 # django-freeze
 django-freeze generates the static version of your django site.
 
-Just run ``python manage.py generate_static_site`` in the shell :)
+Just run ``python manage.py generate_static_site`` :)
 
 ##Features
 - Generate the static version of your django site (optionally compressed in a **.zip** file)
