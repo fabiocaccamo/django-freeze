@@ -1,15 +1,15 @@
 # django-freeze
-django-freeze generates the static version of any django site.
+django-freeze generates the static version of your django site.
 
-Just input ``python manage.py generate_static_site`` in the shelll :)
+Just run ``python manage.py generate_static_site`` in the shell :)
 
 ##Features
-- Generate the static version of your django site (optionally already compressed in a .zip file)
-- Follow all urls founded in sitemap.xml and recursively all urls founded in each page
-- Follow redirects
+- Generate the static version of your django site (optionally compressed in a **.zip** file)
+- Follow all urls founded in **sitemap.xml** (if exists) and recursively all urls founded in each page
+- Follow **redirects**
 - Report invalid/broken urls
-- Possibility to exclude media/static files and specify for which apps include static files
-- Possibility to generate/download the static site using urls (only superuser and staff)
+- Possibility to include/exclude media and static files and specify for which apps include static files
+- Possibility to generate/download the static site using **urls** (only superuser and staff)
 
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
