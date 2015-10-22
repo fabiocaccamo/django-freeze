@@ -81,6 +81,7 @@ Run ``python manage.py generate_static_site``
 Superusers and staff can use the following urls to **download a .zip** containing the generated static site or to just generate the static website.
 
 ``/freeze/download-static-site/``
+
 ``/freeze/generate-static-site/``
 
 *(the time necessary to generate the static site depends on the size of the project)*
