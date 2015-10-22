@@ -1,15 +1,15 @@
 # django-freeze
-django-freeze generates the static version of any django site.
+django-freeze generates the static version of your django site.
 
-Just input ``python manage.py generate_static_site`` in the shelll :)
+Just run ``python manage.py generate_static_site`` :)
 
 ##Features
-- Generate the static version of your django site (optionally already compressed in a .zip file)
-- Follow all urls founded in sitemap.xml and recursively all urls founded in each page
-- Follow redirects
+- Generate the static version of your django site (optionally compressed in a **.zip** file)
+- Follow all urls founded in **sitemap.xml** (if exists) and recursively all urls founded in each page
+- Follow **redirects**
 - Report invalid/broken urls
-- Possibility to exclude media/static files and specify for which apps include static files
-- Possibility to generate / download the static site using urls (only superuser and staff)
+- Possibility to include/exclude media and static files and specify for which apps include static files
+- Possibility to generate/download the static site using **urls** (only superuser and staff)
 
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
@@ -19,7 +19,7 @@ Just input ``python manage.py generate_static_site`` in the shelll :)
 - xmltodict
 
 ##Installation
-- Run ``pip install django-freeze`` or manually download [django-freeze](http://pypi.python.org/pypi/django-freeze), [BeautifulSoup4](https://pypi.python.org/pypi/beautifulsoup4), 
+- Run ``pip install django-freeze`` or manually download [django-freeze](https://pypi.python.org/pypi/django-freeze), [BeautifulSoup4](https://pypi.python.org/pypi/beautifulsoup4), 
 [requests](https://pypi.python.org/pypi/requests/), [xmltodict](https://pypi.python.org/pypi/xmltodict)
 - Add ``freeze`` to ``settings.INSTALLED_APPS``
 - Restart your application server
@@ -52,11 +52,14 @@ FREEZE_REPORT_INVALID_URLS_SUBJECT = '[freeze] invalid urls'
 #if True the generated site will contain also the MEDIA folder and all its content
 FREEZE_INCLUDE_MEDIA = True
 
-#if True the generated sitewill contain also the STATIC folder and all its content
-FREEZE_INCLUDE_STATIC = true
+#if True the generated site will contain also the STATIC folder and all its content
+FREEZE_INCLUDE_STATIC = True
 
 #a tuple containing the list of the apps for which include static files, if empty or None all static files will be included
 FREEZE_INCLUDE_STATIC_APPS = ()
+
+#if True the generated site will be zipped, the *.zip file will be created in FREEZE_ROOT
+FREEZE_ZIP_ALL = False
 
 #the name of the zip file created
 FREEZE_ZIP_NAME = 'freeze' 
@@ -81,6 +84,7 @@ Run ``python manage.py generate_static_site``
 Superusers and staff can use the following urls to **download a .zip** containing the generated static site or to just generate the static website.
 
 ``/freeze/download-static-site/``
+
 ``/freeze/generate-static-site/``
 
 *(the time necessary to generate the static site depends on the size of the project)*
