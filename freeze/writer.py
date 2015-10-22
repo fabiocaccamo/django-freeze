@@ -11,7 +11,7 @@ import zipfile
 from freeze import settings
 
 
-def write(data, html_in_memory = False, zip_in_memory = False, zip_include_media = settings.FREEZE_ZIP_INCLUDE_MEDIA, zip_include_static = settings.FREEZE_ZIP_INCLUDE_STATIC):
+def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = settings.FREEZE_INCLUDE_STATIC, html_in_memory = False, zip_all = False, zip_in_memory = False):
     
     if os.path.exists(settings.FREEZE_ROOT):
         shutil.rmtree(settings.FREEZE_ROOT)
@@ -20,7 +20,7 @@ def write(data, html_in_memory = False, zip_in_memory = False, zip_include_media
         os.makedirs(settings.FREEZE_ROOT)
         
     #create html site tree
-    html_root = tempfile.mkdtemp() if html_in_memory else settings.FREEZE_HTML_ROOT
+    html_root = tempfile.mkdtemp() if html_in_memory else settings.FREEZE_ROOT
     
     if html_in_memory:
         
@@ -32,7 +32,7 @@ def write(data, html_in_memory = False, zip_in_memory = False, zip_include_media
         
         print(u'\ncreate html site tree and write it to disk...')
         
-        html_root = settings.FREEZE_HTML_ROOT
+        html_root = settings.FREEZE_ROOT
         
         if not os.path.exists(html_root):
             os.makedirs(html_root)
@@ -55,86 +55,121 @@ def write(data, html_in_memory = False, zip_in_memory = False, zip_include_media
         index_file.write(html)
         index_file.close()
         
-    if zip_in_memory:
-        zip_file_stream = BytesIO()
-        zip_file = zipfile.ZipFile(zip_file_stream, 'w')
-    else:
-        zip_file = zipfile.ZipFile(settings.FREEZE_ZIP_PATH, 'w')
-    
-    print(u'create file: %s' % (html_path, ))
-    
-    print(u'\nzip files...')
-    
-    #zip www
+        
+    if zip_all:
+        
+        print(u'\nzip files...')
+        
+        if zip_in_memory:
+            zip_file_stream = BytesIO()
+            zip_file = zipfile.ZipFile(zip_file_stream, 'w')
+        else:
+            zip_file = zipfile.ZipFile(settings.FREEZE_ZIP_PATH, 'w')
+            
     for d in data:
         
-        file_disk_path = os.path.normpath(html_root + d['html_path'])
-        file_zip_path = d['html_path']
+        file_src_path = os.path.normpath(html_root + d['html_path'])
         
-        print(u'zip file: %s' % (file_zip_path, ))
+        if zip_all:
+            
+            file_rel_path = d['html_path']
+            
+            print(u'zip file: %s' % (file_rel_path, ))
+            
+            zip_file.write(file_src_path, file_rel_path)
+    
+    
+    if include_static:
         
-        zip_file.write(file_disk_path, file_zip_path)
-        
-    if zip_include_static:
-        
-        print(u'\nzip static files...')
-        
-        #zip static
+        if zip_all:
+            print(u'\nzip static files...')
+        else:
+            print(u'\ncopy static files...')
+            
         for root, dirs, files in os.walk(settings.FREEZE_STATIC_ROOT):
             
+            include_dir = False
+            
+            if settings.FREEZE_INCLUDE_STATIC_DIRS:
+                
+                for static_dir in settings.FREEZE_INCLUDE_STATIC_DIRS:
+                    
+                    if root.find(static_dir) == 0:
+                        include_dir = True
+                        break
+            else:
+                include_dir = True
+                
+            if not include_dir:
+                continue
+                
             for file in files:
                 
-                file_disk_path = os.path.join(root, file)
-                file_zip_path = file_disk_path[file_disk_path.find(settings.FREEZE_STATIC_URL):]
+                file_src_path = os.path.join(root, file)
+                file_dst_path = file_src_path[file_src_path.find(settings.FREEZE_STATIC_URL):]
                 
-                if settings.FREEZE_ZIP_INCLUDE_STATIC_APPS:
+                if zip_all:
                     
-                    file_app_name = file_zip_path.replace(settings.FREEZE_STATIC_URL, '').split('/')[0]
+                    print(u'zip static file: %s' % (file_dst_path, ))
                     
-                    for app_name in settings.FREEZE_ZIP_INCLUDE_STATIC_APPS:
-                        
-                        if app_name == file_app_name:
-                            
-                            print(u'zip static file: %s' % (file_zip_path, ))
-                            
-                            zip_file.write(file_disk_path, file_zip_path)
-                            
-                            break
+                    zip_file.write(file_src_path, file_dst_path)
+                
                 else:
                     
-                    print(u'zip static file: %s' % (file_zip_path, ))
+                    file_dst_path = os.path.normpath(settings.FREEZE_ROOT + '/' + file_dst_path)
+                    file_dst_dirname = os.path.dirname(file_dst_path)
                     
-                    zip_file.write(file_disk_path, file_zip_path)
+                    print(u'copy static file: %s - %s' % (file_src_path, file_dst_path, ))
                     
-                    
-    if zip_include_media:
+                    if not os.path.exists(file_dst_dirname):
+                        os.makedirs(file_dst_dirname)
+                        
+                    shutil.copy2(file_src_path, file_dst_path)
+    
+    if include_media:
         
-        print(u'\nzip media files...')
-        
-        #zip media
+        if zip_all:
+            print(u'\nzip media files...')
+        else:
+            print(u'\ncopy media files...')
+            
         for root, dirs, files in os.walk(settings.FREEZE_MEDIA_ROOT):
             
             for file in files:
                 
-                file_disk_path = os.path.join(root, file)
-                file_zip_path = file_disk_path[file_disk_path.find(settings.FREEZE_MEDIA_URL):]
+                file_src_path = os.path.join(root, file)
+                file_dst_path = file_src_path[file_src_path.find(settings.FREEZE_MEDIA_URL):]
                 
-                print(u'zip media file: %s' % (file_zip_path, ))
+                if zip_all:
+                    
+                    print(u'zip media file: %s' % (file_dst_path, ))
+                    
+                    zip_file.write(file_src_path, file_dst_path)
                 
-                zip_file.write(file_disk_path, file_zip_path)
-                
-                
-    zip_file.close()
-    
-    if zip_in_memory:
+                else:
+                    
+                    file_dst_path = os.path.normpath(settings.FREEZE_ROOT + '/' + file_dst_path)
+                    file_dst_dirname = os.path.dirname(file_dst_path)
+                    
+                    print(u'copy media file: %s - %s' % (file_src_path, file_dst_path, ))
+                    
+                    if not os.path.exists(file_dst_dirname):
+                        os.makedirs(file_dst_dirname)
+                        
+                    shutil.copy2(file_src_path, file_dst_path)
+                    
+    if zip_all:
         
-        zip_file_stream.seek(0)
-        return zip_file_stream.getvalue()
+        zip_file.close()
         
+        if zip_in_memory:
+            
+            zip_file_stream.seek(0)
+            return zip_file_stream.getvalue()
+            
+        else:
+            print(u'\nstatic site zipped ready at: %s' % (settings.FREEZE_ZIP_PATH, ))
     else:
-        
-        print(u'\nzip file ready at: %s' % (settings.FREEZE_ZIP_PATH, ))
-           
-        return
+        print(u'\nstatic site ready at: %s' % (settings.FREEZE_ROOT, ))
         
         
