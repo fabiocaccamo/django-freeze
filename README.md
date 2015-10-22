@@ -52,11 +52,14 @@ FREEZE_REPORT_INVALID_URLS_SUBJECT = '[freeze] invalid urls'
 #if True the generated site will contain also the MEDIA folder and all its content
 FREEZE_INCLUDE_MEDIA = True
 
-#if True the generated sitewill contain also the STATIC folder and all its content
-FREEZE_INCLUDE_STATIC = true
+#if True the generated site will contain also the STATIC folder and all its content
+FREEZE_INCLUDE_STATIC = True
 
 #a tuple containing the list of the apps for which include static files, if empty or None all static files will be included
 FREEZE_INCLUDE_STATIC_APPS = ()
+
+#if True the generated site will be zipped, the *.zip file will be created in FREEZE_ROOT
+FREEZE_ZIP_ALL = False
 
 #the name of the zip file created
 FREEZE_ZIP_NAME = 'freeze' 
