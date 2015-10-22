@@ -9,7 +9,7 @@ Just input ``python manage.py generate_static_site`` in the shelll :)
 - Follow redirects
 - Report invalid/broken urls
 - Possibility to exclude media/static files and specify for which apps include static files
-- Possibility to generate / download the static site using urls (only superuser and staff)
+- Possibility to generate/download the static site using urls (only superuser and staff)
 
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
@@ -19,7 +19,7 @@ Just input ``python manage.py generate_static_site`` in the shelll :)
 - xmltodict
 
 ##Installation
-- Run ``pip install django-freeze`` or manually download [django-freeze](http://pypi.python.org/pypi/django-freeze), [BeautifulSoup4](https://pypi.python.org/pypi/beautifulsoup4), 
+- Run ``pip install django-freeze`` or manually download [django-freeze](https://pypi.python.org/pypi/django-freeze), [BeautifulSoup4](https://pypi.python.org/pypi/beautifulsoup4), 
 [requests](https://pypi.python.org/pypi/requests/), [xmltodict](https://pypi.python.org/pypi/xmltodict)
 - Add ``freeze`` to ``settings.INSTALLED_APPS``
 - Restart your application server
