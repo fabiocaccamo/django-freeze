@@ -11,7 +11,7 @@ import zipfile
 from freeze import settings
 
 
-def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = settings.FREEZE_INCLUDE_STATIC, html_in_memory = False, zip_all = False, zip_in_memory = False):
+def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = settings.FREEZE_INCLUDE_STATIC, html_in_memory = False, zip_all = settings.FREEZE_ZIP_ALL, zip_in_memory = False):
     
     if os.path.exists(settings.FREEZE_ROOT):
         shutil.rmtree(settings.FREEZE_ROOT)
