@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from django.core.exceptions import PermissionDenied
+from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from django.http import HttpResponseServerError
+from django.http import StreamingHttpResponse
 
+import os
 from datetime import datetime
 
-from freeze import controller, settings
+from freeze import scanner, settings, writer
 
 
 def download_static_site(request):
@@ -14,21 +17,22 @@ def download_static_site(request):
     if request.user and request.user.is_staff and request.user.is_active:
         
         try:
-            value = controller.download_static_site()
+            writer.write( scanner.scan(), html_in_memory = True, zip_all = True, zip_in_memory = False)
             
-            #zip in memory
-            response = HttpResponse(value, content_type = 'application/zip')
+            file_path = settings.FREEZE_ZIP_PATH
+            file_name_prefix = datetime.now().strftime('%Y%m%d_%H%M%S_')
+            file_name = settings.FREEZE_ZIP_NAME_WITH_PREFIX % (file_name_prefix, )
             
-            #zip on disk
-            #response = HttpResponse(open(settings.FREEZE_ZIP_PATH, 'r'), content_type = 'application/zip')
+            #thanks - http://stackoverflow.com/questions/8600843/serving-large-files-with-high-loads-in-django
+            file_chunk_size = 8192
+            file_wrapper = FileWrapper(open(file_path), file_chunk_size)
             
-            prefix = datetime.now().strftime('%Y%m%d_%H%M%S_')
-            filename = settings.FREEZE_ZIP_NAME_WITH_PREFIX % (prefix, )
-            
-            response['Content-Disposition'] = 'attachment; filename=%s' % (filename, )
+            response = StreamingHttpResponse(file_wrapper, content_type = 'application/zip')
+            response['Content-Length'] = os.path.getsize(file_path)    
+            response['Content-Disposition'] = 'attachment; filename=%s' % (file_name, )
             return response
-        
-        except IOError:
+            
+        except:
             return HttpResponseServerError()
     else:
         raise PermissionDenied
@@ -39,7 +43,7 @@ def generate_static_site(request):
     if request.user and request.user.is_staff and request.user.is_active:
         
         try:
-            controller.generate_static_site()
+            writer.write( scanner.scan(), html_in_memory = settings.FREEZE_ZIP_ALL, zip_all = settings.FREEZE_ZIP_ALL, zip_in_memory = False)
             
             return HttpResponse()
             
