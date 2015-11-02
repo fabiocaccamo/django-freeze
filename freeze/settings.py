@@ -21,15 +21,34 @@ FREEZE_MEDIA_URL = settings.MEDIA_URL
 FREEZE_STATIC_ROOT = settings.STATIC_ROOT
 FREEZE_STATIC_URL = settings.STATIC_URL
 
-
 FREEZE_USE_HTTPS = getattr(settings, 'FREEZE_USE_HTTPS', False)
 FREEZE_SITE = Site.objects.get_current()
 FREEZE_PROTOCOL = 'https://' if FREEZE_USE_HTTPS else 'http://'
 FREEZE_DOMAIN = FREEZE_SITE.domain
+
+if FREEZE_DOMAIN.endswith('/'):
+    FREEZE_DOMAIN = FREEZE_DOMAIN[0:-1]
+    
 FREEZE_HOST = FREEZE_PROTOCOL + FREEZE_DOMAIN
 
-FREEZE_SITEMAP_MODE = getattr(settings, 'FREEZE_SITEMAP_MODE', True)
-FREEZE_FOLLOW_MODE = getattr(settings, 'FREEZE_FOLLOW_MODE', True)
+#if empty it will works only for a flat site-tree (not recommended)
+FREEZE_BASE_URL = getattr(settings, 'FREEZE_BASE_URL', None)
+
+if FREEZE_BASE_URL:
+    
+    if FREEZE_BASE_URL.startswith('/') or FREEZE_BASE_URL.startswith('http'):
+        
+        if not FREEZE_BASE_URL.endswith('/'):
+            FREEZE_BASE_URL += '/'
+        
+        if FREEZE_BASE_URL == '/':
+            FREEZE_BASE_URL = None
+    else:
+        raise ImproperlyConfigured('settings.FREEZE_BASE_URL shoud start with \'/\' or \'http\' or be an empty string')
+    
+    
+FREEZE_FOLLOW_SITEMAP_URLS = getattr(settings, 'FREEZE_FOLLOW_SITEMAP_URLS', True)
+FREEZE_FOLLOW_HTML_URLS = getattr(settings, 'FREEZE_FOLLOW_HTML_URLS', True)
 
 FREEZE_REPORT_INVALID_URLS = getattr(settings, 'FREEZE_REPORT_INVALID_URLS', False)
 FREEZE_REPORT_INVALID_URLS_SUBJECT = getattr(settings, 'FREEZE_REPORT_INVALID_URLS_SUBJECT', '[freeze] invalid urls')

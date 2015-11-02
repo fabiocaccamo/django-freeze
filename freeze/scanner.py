@@ -9,25 +9,36 @@ import requests
 from freeze import settings, parser
 
 
-def scan( sitemap_mode = settings.FREEZE_SITEMAP_MODE, follow_mode = settings.FREEZE_FOLLOW_MODE, report_invalid_urls = settings.FREEZE_REPORT_INVALID_URLS ):
+def scan( follow_sitemap_urls = settings.FREEZE_FOLLOW_SITEMAP_URLS, follow_html_urls = settings.FREEZE_FOLLOW_HTML_URLS, report_invalid_urls = settings.FREEZE_REPORT_INVALID_URLS ):
     
-    data = []
+    host = settings.FREEZE_HOST
+    base_url = settings.FREEZE_HOST + '/'
+    sitemap_url, sitemap_urls = parser.parse_sitemap_urls()
     
-    urls = [ settings.FREEZE_HOST + ('/' if settings.FREEZE_DOMAIN[-1] != '/' else '') ] 
+    urls_data = []
+    urls = [ base_url ] 
     
-    if sitemap_mode:
+    if follow_sitemap_urls:
         
-        urls += parser.parse_sitemap_urls()
+        urls += sitemap_urls
     
     memo = []
     errs = []
     
     print(u'fetch urls...')
+    
+    
+    def scan_error( req ):
         
-    #extract data for a given url
+        err = u'[ERROR %s]' % (req.status_code, )
+        errs.append(u'%s %s' % (err, req.url, ))
+        
+        print(err)
+    
+    
     def scan_url( url ):
         
-        if url.find(settings.FREEZE_HOST) == 0:
+        if url.find(host) == 0:
             
             #clean only static-site urls
             url_qm = url.find('?')
@@ -39,9 +50,6 @@ def scan( sitemap_mode = settings.FREEZE_SITEMAP_MODE, follow_mode = settings.FR
             
             if url_hash > -1:
                 url = url[0:url_hash]
-                
-            if url[-1] != '/':
-                url += '/'
                 
         if not url in memo:
             memo.append(url)
@@ -55,7 +63,7 @@ def scan( sitemap_mode = settings.FREEZE_SITEMAP_MODE, follow_mode = settings.FR
         
         if req.status_code == requests.codes.ok:
             
-            if req.url.find(settings.FREEZE_HOST) != 0:
+            if req.url.find(host) != 0:
                 #skip non static-site urls (external links)
                 return
             
@@ -63,35 +71,51 @@ def scan( sitemap_mode = settings.FREEZE_SITEMAP_MODE, follow_mode = settings.FR
             
             if is_redirect:
                 
-                if req.url.find(settings.FREEZE_HOST) != 0:
+                if req.url.find(host) != 0:
                     #redirected to a page of another domain
                     print(u'[OK DONT FOLLOW REDIRECT] -> %s' % (req.url, ))
                     
                     return
                     
-                html_str = render_to_string('freeze/redirect.html', { 'redirect_url':req.url.replace(settings.FREEZE_HOST, u'') })
+                redirect_url = req.url.replace(host, u'')
+                
+                html_str = render_to_string('freeze/redirect.html', { 'redirect_url':req.url.replace(host, u'') })
                 html = u'%s' % (html_str, )
                 
                 print(u'[OK FOLLOW REDIRECT] -> %s' % (req.url, ))
             
             else:
                 
-                html = u'%s' % (req.text, )
-                html = html.replace(settings.FREEZE_HOST, u'')
-                html = html.strip()
-                html = html.encode('utf-8')
+                html = parser.parse_request_text( req )
                 
                 print(u'[OK]')
                 
-            path = os.path.normpath(url.replace(settings.FREEZE_HOST, ''))
+            path = os.path.normpath(url.replace(host, ''))
             
-            html_path = os.path.join(path, 'index.html')
+            if path.endswith('.html'):
+                #print('path (HTML) -> ' + path)
+                file_slash = path.rfind('/') + 1
+                file_dirs = path[0:file_slash]
+                file_name = path[file_slash:]
+            else:
+                #print('path -> ' + path)
+                file_dirs = path
+                file_name = 'index.html'
             
-            data.append({ 
+            file_path = os.path.join(file_dirs, file_name)
+            
+            #print('file dirs: ' + file_dirs)
+            #print('file name: ' + file_name)
+            #print('file path: ' + file_path)
+            #print('---')
+            
+            file_data = parser.replace_base_url( html, settings.FREEZE_BASE_URL )
+            
+            urls_data.append({ 
                 'url': url, 
-                'path': path, 
-                'html': html, 
-                'html_path': html_path, 
+                'file_dirs': file_dirs, 
+                'file_path': file_path, 
+                'file_data': file_data, 
             })
             
             if is_redirect:
@@ -100,24 +124,24 @@ def scan( sitemap_mode = settings.FREEZE_SITEMAP_MODE, follow_mode = settings.FR
                 
             else:
                 
-                if follow_mode:
+                if follow_html_urls:
                     
                     html_urls = parser.parse_html_urls(html = html, base_url = path, media_urls = False, static_urls = False, external_urls = False)
-                    
+                
                     for url in html_urls:
                         
                         scan_url(url)
         else:
-            
-            err = u'[ERROR %s]' % (req.status_code, )
-            errs.append(u'%s %s' % (err, req.url, ))
-            
-            print(err)
-                
+
+            scan_error(req)
+    
+    #scan_file( robots_url )
+    #scan_file( sitemap_url )
+    
     for url in urls:
         scan_url(url)
-        
-    data.sort(key = lambda d: d['url'])
+    
+    urls_data.sort(key = lambda d: d['url'])
     
     errs = list(set(errs))
     errs.sort()
@@ -126,6 +150,6 @@ def scan( sitemap_mode = settings.FREEZE_SITEMAP_MODE, follow_mode = settings.FR
         
         mail_managers(settings.FREEZE_REPORT_INVALID_URLS_SUBJECT, u'\n'.join(errs))
         
-    return data
+    return urls_data
     
     

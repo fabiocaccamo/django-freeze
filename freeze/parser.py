@@ -3,6 +3,7 @@
 from django.core.urlresolvers import reverse, NoReverseMatch
 
 import os
+import re
 import requests
 import xmltodict
 
@@ -11,6 +12,16 @@ from bs4 import BeautifulSoup
 from freeze import settings
 
 
+def parse_request_text( req ):
+    
+    text = u'%s' % (req.text, )
+    text = text.replace(settings.FREEZE_HOST, u'')
+    text = text.strip()
+    text = text.encode('utf-8')
+    
+    return text
+    
+    
 def parse_sitemap_urls():
     
     urls = []
@@ -33,8 +44,9 @@ def parse_sitemap_urls():
             sitemap_url = 'sitemap.xml'
             
     #load sitemap
-    sitemap_url = settings.FREEZE_HOST + sitemap_url# + 'enforce404'
+    sitemap_url = settings.FREEZE_HOST + sitemap_url
     sitemap_request = requests.get(sitemap_url)
+    sitemap_request.encoding = 'utf-8'
     
     if sitemap_request.status_code == requests.codes.ok:
         
@@ -58,7 +70,7 @@ def parse_sitemap_urls():
         urls = list(set(urls))
         urls.sort()
         
-    return urls
+    return (sitemap_url, urls, )
     
     
 def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = False, external_urls = False):
@@ -107,5 +119,29 @@ def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = Fals
     urls.sort()
     
     return urls
+    
+    
+def replace_base_url(text, base_url):
+    
+    if base_url != None:
+        
+        text = text.replace('"' + settings.FREEZE_MEDIA_URL, '"' + base_url + settings.FREEZE_MEDIA_URL[1:])
+        text = text.replace('\'' + settings.FREEZE_MEDIA_URL, '\'' + base_url + settings.FREEZE_MEDIA_URL[1:])
+        
+        text = text.replace('"' + settings.FREEZE_STATIC_URL, '"' + base_url + settings.FREEZE_STATIC_URL[1:])
+        text = text.replace('\'' + settings.FREEZE_STATIC_URL, '\'' + base_url + settings.FREEZE_STATIC_URL[1:])
+        
+        text = re.sub(r'\s?=\s?"/', ' = "' + base_url, text)
+        text = re.sub(r'\s?=\s?\'/', ' = \'' + base_url, text)
+        
+        text = re.sub(r'href\s?=\s?"/', 'href="' + base_url, text)
+        text = re.sub(r'href\s?=\s?\'/', 'href=\'' + base_url, text)
+        text = re.sub(r'src\s?=\s?"/', 'src="' + base_url, text)
+        text = re.sub(r'src\s?=\s?\'/', 'src=\'' + base_url, text)
+        text = re.sub(r'url\s?\(\s?"/', 'url("' + base_url, text)
+        text = re.sub(r'url\s?\(\s?\'/', 'url(\'' + base_url, text)
+        text = re.sub(r'<loc>\s?/', '<loc>' + base_url, text)
+        
+    return text
     
     

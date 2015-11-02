@@ -19,41 +19,41 @@ def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = 
     if not os.path.exists(settings.FREEZE_ROOT):
         os.makedirs(settings.FREEZE_ROOT)
         
-    #create html site tree
-    html_root = tempfile.mkdtemp() if html_in_memory else settings.FREEZE_ROOT
+    #create site tree
+    files_root = tempfile.mkdtemp() if html_in_memory else settings.FREEZE_ROOT
     
     if html_in_memory:
         
-        print(u'\ncreate html site tree and write it to a temporary directory...')
+        print(u'\ncreate site tree and write it to a temporary directory...')
             
-        html_root = tempfile.mkdtemp()
+        files_root = tempfile.mkdtemp()
         
     else:
         
-        print(u'\ncreate html site tree and write it to disk...')
+        print(u'\ncreate site tree and write it to disk...')
         
-        html_root = settings.FREEZE_ROOT
+        files_root = settings.FREEZE_ROOT
         
-        if not os.path.exists(html_root):
-            os.makedirs(html_root)
+        if not os.path.exists(files_root):
+            os.makedirs(files_root)
             
     #create directories tree and index(es).html files
     for d in data:
         
-        html_dirs = os.path.join(os.path.normpath(html_root + d['path']))
-        html_path = os.path.join(os.path.normpath(html_root + d['html_path']))
-        html = d['html']
+        file_dirs = os.path.join(os.path.normpath(files_root + d['file_dirs']))
+        file_path = os.path.join(os.path.normpath(files_root + d['file_path']))
+        file_data = d['file_data']
         
-        if not os.path.exists(html_dirs):
-            os.makedirs(html_dirs)
+        if not os.path.exists(file_dirs):
+            os.makedirs(file_dirs)
             
-            #print(u'create directory: %s' % (html_dirs, ))
+            #print(u'create directory: %s' % (file_dirs, ))
             
-        print(u'create file: %s' % (html_path, ))
+        print(u'create file: %s' % (file_path, ))
         
-        index_file = open(html_path, 'wb')
-        index_file.write(html)
-        index_file.close()
+        file_obj = open(file_path, 'wb')
+        file_obj.write(file_data)
+        file_obj.close()
         
         
     if zip_all:
@@ -68,11 +68,11 @@ def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = 
             
     for d in data:
         
-        file_src_path = os.path.normpath(html_root + d['html_path'])
+        file_src_path = os.path.normpath(files_root + d['file_path'])
         
         if zip_all:
             
-            file_rel_path = d['html_path']
+            file_rel_path = d['file_path']
             
             print(u'zip file: %s' % (file_rel_path, ))
             
@@ -165,7 +165,10 @@ def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = 
         if zip_in_memory:
             
             zip_file_stream.seek(0)
-            return zip_file_stream.getvalue()
+            zip_file_stream_value = zip_file_stream.getvalue()
+            zip_file_stream.close()
+            
+            return zip_file_stream_value
             
         else:
             print(u'\nstatic site zipped ready at: %s' % (settings.FREEZE_ZIP_PATH, ))
