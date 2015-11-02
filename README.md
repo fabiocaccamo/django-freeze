@@ -37,7 +37,7 @@ FREEZE_ROOT = '/...'
 #tells 'freeze' if the urls should be fetched using https instead of http protocol
 FREEZE_USE_HTTPS = False
 
-#the base url for all relative links, useful if the generated static site will be placed in a folder which is not the document-root
+#the base url for all links relative to root, useful if the generated static site will be placed in a folder which is not the document-root
 FREEZE_BASE_URL = '/'
 
 #if True 'freeze' will fetch each url founded in sitemap.xml
