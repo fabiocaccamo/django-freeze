@@ -125,11 +125,18 @@ def replace_base_url(text, base_url):
     
     if base_url != None:
         
-        text = text.replace('"' + settings.FREEZE_MEDIA_URL, '"' + base_url + settings.FREEZE_MEDIA_URL[1:])
-        text = text.replace('\'' + settings.FREEZE_MEDIA_URL, '\'' + base_url + settings.FREEZE_MEDIA_URL[1:])
+        media_url = settings.FREEZE_MEDIA_URL
+        static_url = settings.FREEZE_STATIC_URL
         
-        text = text.replace('"' + settings.FREEZE_STATIC_URL, '"' + base_url + settings.FREEZE_STATIC_URL[1:])
-        text = text.replace('\'' + settings.FREEZE_STATIC_URL, '\'' + base_url + settings.FREEZE_STATIC_URL[1:])
+        if media_url.startswith('/'):
+            
+            text = text.replace('"' + media_url, '"' + base_url + media_url[1:])
+            text = text.replace('\'' + media_url, '\'' + base_url + media_url[1:])
+        
+        if static_url.startswith('/'):
+            
+            text = text.replace('"' + static_url, '"' + base_url + static_url[1:])
+            text = text.replace('\'' + static_url, '\'' + base_url + static_url[1:])
         
         text = re.sub(r'\s?=\s?"/', ' = "' + base_url, text)
         text = re.sub(r'\s?=\s?\'/', ' = \'' + base_url, text)
