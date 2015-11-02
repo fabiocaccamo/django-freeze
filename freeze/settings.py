@@ -31,7 +31,6 @@ if FREEZE_DOMAIN.endswith('/'):
     
 FREEZE_HOST = FREEZE_PROTOCOL + FREEZE_DOMAIN
 
-#if empty it will works only for a flat site-tree (not recommended)
 FREEZE_BASE_URL = getattr(settings, 'FREEZE_BASE_URL', None)
 
 if FREEZE_BASE_URL:
