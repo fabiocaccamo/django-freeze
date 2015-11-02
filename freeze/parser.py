@@ -121,34 +121,29 @@ def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = Fals
     return urls
     
     
+re_double_quotes = re.compile(r'(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")')
+re_single_quotes = re.compile(r'(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')')
+
+
+def __replace_base_url( match_obj ):
+    
+    startquote = match_obj.group(1)
+    url = (match_obj.group(4) or '')
+    endquote = match_obj.group(6)
+    
+    return startquote + base_url + url + endquote
+
+
 def replace_base_url(text, base_url):
     
     if base_url != None:
         
-        media_url = settings.FREEZE_MEDIA_URL
-        static_url = settings.FREEZE_STATIC_URL
-        
-        if media_url.startswith('/'):
-            
-            text = text.replace('"' + media_url, '"' + base_url + media_url[1:])
-            text = text.replace('\'' + media_url, '\'' + base_url + media_url[1:])
-        
-        if static_url.startswith('/'):
-            
-            text = text.replace('"' + static_url, '"' + base_url + static_url[1:])
-            text = text.replace('\'' + static_url, '\'' + base_url + static_url[1:])
-        
-        text = re.sub(r'\s?=\s?"/', ' = "' + base_url, text)
-        text = re.sub(r'\s?=\s?\'/', ' = \'' + base_url, text)
-        
-        text = re.sub(r'href\s?=\s?"/', 'href="' + base_url, text)
-        text = re.sub(r'href\s?=\s?\'/', 'href=\'' + base_url, text)
-        text = re.sub(r'src\s?=\s?"/', 'src="' + base_url, text)
-        text = re.sub(r'src\s?=\s?\'/', 'src=\'' + base_url, text)
-        text = re.sub(r'url\s?\(\s?"/', 'url("' + base_url, text)
-        text = re.sub(r'url\s?\(\s?\'/', 'url(\'' + base_url, text)
-        text = re.sub(r'<loc>\s?/', '<loc>' + base_url, text)
-        
+        text = re.sub(re_double_quotes, __replace_base_url, text)
+        text = re.sub(re_single_quotes, __replace_base_url, text)
+        text = re.sub(r'url=/', 'url=' + base_url, text) #<meta http-equiv="refresh" content="0; url=/en/" />
+        text = re.sub(r'<loc>/', '<loc>' + base_url, text) #sitemap.xml urls
+        #print(text)
+
     return text
     
     
