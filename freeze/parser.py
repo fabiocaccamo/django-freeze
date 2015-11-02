@@ -125,21 +125,20 @@ re_double_quotes = re.compile(r'(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")')
 re_single_quotes = re.compile(r'(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')')
 
 
-def __replace_base_url( match_obj ):
-    
-    startquote = match_obj.group(1)
-    url = (match_obj.group(4) or '')
-    endquote = match_obj.group(6)
-    
-    return startquote + base_url + url + endquote
-
-
 def replace_base_url(text, base_url):
     
     if base_url != None:
         
-        text = re.sub(re_double_quotes, __replace_base_url, text)
-        text = re.sub(re_single_quotes, __replace_base_url, text)
+        def sub_base_url(match_obj):
+            
+            startquote = match_obj.group(1)
+            url = (match_obj.group(4) or '')
+            endquote = match_obj.group(6)
+            
+            return startquote + base_url + url + endquote
+
+        text = re.sub(re_double_quotes, sub_base_url, text)
+        text = re.sub(re_single_quotes, sub_base_url, text)
         text = re.sub(r'url=/', 'url=' + base_url, text) #<meta http-equiv="refresh" content="0; url=/en/" />
         text = re.sub(r'<loc>/', '<loc>' + base_url, text) #sitemap.xml urls
         #print(text)
