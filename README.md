@@ -37,11 +37,14 @@ FREEZE_ROOT = '/...'
 #tells 'freeze' if the urls should be fetched using https instead of http protocol
 FREEZE_USE_HTTPS = False
 
+#the base url for all relative links, useful if the generated static site will be placed in a folder which is not the document-root
+FREEZE_BASE_URL = '/'
+
 #if True 'freeze' will fetch each url founded in sitemap.xml
-FREEZE_SITEMAP_MODE = True
+FREEZE_FOLLOW_SITEMAP_URLS = True
 
 #if True 'freeze' will follow and fetch recursively each link-url founded in each page
-FREEZE_FOLLOW_MODE = True
+FREEZE_FOLLOW_HTML_URLS = True
 
 #if true 'freeze' will send an email to managers containing the list of all invalid urls (404, 500, etc..)
 FREEZE_REPORT_INVALID_URLS = False
