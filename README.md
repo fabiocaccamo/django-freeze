@@ -10,6 +10,7 @@ Just run ``python manage.py generate_static_site`` :)
 - Report invalid/broken urls
 - Possibility to include/exclude media and static files and specify for which apps include static files
 - Possibility to generate/download the static site using **urls** (only superuser and staff)
+- Possibility to specify a base url (very useful if the static site will not run on a document root)
 
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
