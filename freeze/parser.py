@@ -121,14 +121,11 @@ def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = Fals
     return urls
     
     
-re_double_quotes = re.compile(r'(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")')
-re_single_quotes = re.compile(r'(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')')
-
-
 def replace_base_url(text, base_url):
     
     if base_url != None:
         
+        #replace base url for all urls relative to root between "" or ''
         def sub_base_url(match_obj):
             
             startquote = match_obj.group(1)
@@ -137,12 +134,38 @@ def replace_base_url(text, base_url):
             
             return startquote + base_url + url + endquote
 
-        text = re.sub(re_double_quotes, sub_base_url, text)
-        text = re.sub(re_single_quotes, sub_base_url, text)
-        text = re.sub(r'url=/', 'url=' + base_url, text) #<meta http-equiv="refresh" content="0; url=/en/" />
-        text = re.sub(r'<loc>/', '<loc>' + base_url, text) #sitemap.xml urls
+        text = re.sub(r'(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")', sub_base_url, text)
+        text = re.sub(r'(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')', sub_base_url, text)
+        
+        media_url = settings.FREEZE_MEDIA_URL
+
+        if media_url.startswith('/'):
+            
+            #fix media double slashes mistake
+            text = text.replace('/' + media_url, media_url)
+            
+            #replace base url for media urls outside quotes
+            text = re.sub(r'([^\"\'\-\_\w\d])' + media_url, r'\1' + base_url + media_url[1:], text)
+            
+        #replace base url for static urls in case of urls without "" or ''
+        static_url = settings.FREEZE_STATIC_URL
+        
+        if static_url.startswith('/'):
+            
+            #fix static double slashes mistake
+            text = text.replace('/' + static_url, static_url)
+            
+            #replace base url for static urls outside quotes
+            text = re.sub(r'([^\"\'\-\_\w\d])' + static_url, r'\1' + base_url + static_url[1:], text)
+            
+        #replace base url in case of <meta http-equiv="refresh" content="0; url=/en/" />
+        text = re.sub(r'url=/', 'url=' + base_url, text)
+        
+        #replace base url in sitemap.xml
+        text = re.sub(r'<loc>/', '<loc>' + base_url, text)
+        
         #print(text)
 
     return text
-    
+
     
