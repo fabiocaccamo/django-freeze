@@ -17,7 +17,28 @@ def download_static_site(request):
     if request.user and request.user.is_staff and request.user.is_active:
         
         try:
-            writer.write( scanner.scan(), html_in_memory = True, zip_all = True, zip_in_memory = False)
+            
+            include_media_get = request.GET.get('include_media')
+            
+            if include_media_get == '0':
+                include_media = False
+            elif include_media_get == '1':
+                include_media = True
+            else:
+                include_media = settings.FREEZE_INCLUDE_MEDIA
+            
+            
+            include_static_get = request.GET.get('include_static')
+            
+            if include_static_get == '0':
+                include_static = False
+            elif include_static_get == '1':
+                include_static = True
+            else:
+                include_static = settings.FREEZE_INCLUDE_STATIC
+                
+
+            writer.write( scanner.scan(), include_media = include_media, include_static = include_static, html_in_memory = True, zip_all = True, zip_in_memory = False)
             
             file_path = settings.FREEZE_ZIP_PATH
             file_name_prefix = datetime.now().strftime('%Y%m%d_%H%M%S_')
