@@ -50,21 +50,6 @@ FREEZE_REPORT_INVALID_URLS_SUBJECT = getattr(settings, 'FREEZE_REPORT_INVALID_UR
 
 FREEZE_INCLUDE_MEDIA = getattr(settings, 'FREEZE_INCLUDE_MEDIA', True)
 FREEZE_INCLUDE_STATIC = getattr(settings, 'FREEZE_INCLUDE_STATIC', True)
-FREEZE_INCLUDE_STATIC_APPS = getattr(settings, 'FREEZE_INCLUDE_STATIC_APPS', ())
-FREEZE_INCLUDE_STATIC_DIRS = []
-
-if FREEZE_INCLUDE_STATIC_APPS:
-    
-    for app_name in FREEZE_INCLUDE_STATIC_APPS:
-        
-        if app_name in settings.INSTALLED_APPS:
-            
-            app_static_dir = os.path.join(FREEZE_STATIC_ROOT, app_name)
-            
-            FREEZE_INCLUDE_STATIC_DIRS.append( app_static_dir )
-        else:
-            raise ImproperlyConfigured('%s not founded in settings.INSTALLED_APPS' % (app_name, ))
-            
 
 FREEZE_ZIP_ALL = getattr(settings, 'FREEZE_ZIP_ALL', False)
 FREEZE_ZIP_NAME = getattr(settings, 'FREEZE_ZIP_NAME', 'freeze')
@@ -72,6 +57,5 @@ FREEZE_ZIP_NAME = getattr(settings, 'FREEZE_ZIP_NAME', 'freeze')
 if len(FREEZE_ZIP_NAME) >= 4 and FREEZE_ZIP_NAME[-4:].lower() != '.zip':
     FREEZE_ZIP_NAME += '.zip'
 
-FREEZE_ZIP_NAME_WITH_PREFIX = '%s' + FREEZE_ZIP_NAME
 FREEZE_ZIP_PATH = os.path.abspath(os.path.join(FREEZE_ROOT, FREEZE_ZIP_NAME))
 

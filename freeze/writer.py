@@ -86,15 +86,18 @@ def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = 
         else:
             print(u'\ncopy static files...')
             
+        include_static_dirs = isinstance(include_static, (list, tuple, ))
+        
         for root, dirs, files in os.walk(settings.FREEZE_STATIC_ROOT):
             
             include_dir = False
             
-            if settings.FREEZE_INCLUDE_STATIC_DIRS:
+            if include_static_dirs:
                 
-                for static_dir in settings.FREEZE_INCLUDE_STATIC_DIRS:
+                for static_dir in include_static:
+                    static_dir_path = os.path.join(settings.FREEZE_STATIC_ROOT + static_dir)
                     
-                    if root.find(static_dir) == 0:
+                    if root.find(static_dir_path) == 0:
                         include_dir = True
                         break
             else:
@@ -133,8 +136,26 @@ def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = 
         else:
             print(u'\ncopy media files...')
             
+        include_media_dirs = isinstance(include_media, (list, tuple, ))
+        
         for root, dirs, files in os.walk(settings.FREEZE_MEDIA_ROOT):
             
+            include_dir = False
+            
+            if include_media_dirs:
+                
+                for media_dir in include_media:
+                    media_dir_path = os.path.join(settings.FREEZE_MEDIA_ROOT + media_dir)
+                    
+                    if root.find(media_dir_path) == 0:
+                        include_dir = True
+                        break
+            else:
+                include_dir = True
+                
+            if not include_dir:
+                continue
+                
             for file in files:
                 
                 file_src_path = os.path.join(root, file)

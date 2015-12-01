@@ -19,34 +19,31 @@ def download_static_site(request):
         try:
             
             include_media_get = request.GET.get('include_media')
+            include_media_default = settings.FREEZE_INCLUDE_MEDIA
             
             if include_media_get == '0':
                 include_media = False
             elif include_media_get == '1':
-                include_media = True
+                include_media = include_media_default if include_media_default else True
             else:
-                include_media = settings.FREEZE_INCLUDE_MEDIA
+                include_media = include_media_default
             
             
             include_static_get = request.GET.get('include_static')
+            include_static_default = settings.FREEZE_INCLUDE_STATIC
             
             if include_static_get == '0':
                 include_static = False
             elif include_static_get == '1':
-                include_static = True
+                include_static = include_static_default if include_static_default else True
             else:
-                include_static = settings.FREEZE_INCLUDE_STATIC
-                
-
-            writer.write( scanner.scan(), include_media = include_media, include_static = include_static, html_in_memory = True, zip_all = True, zip_in_memory = False)
+                include_static = include_static_default
             
-            file_path = settings.FREEZE_ZIP_PATH
-            file_name_prefix = datetime.now().strftime('%Y%m%d_%H%M%S_')
-            file_name = settings.FREEZE_ZIP_NAME_WITH_PREFIX % (file_name_prefix, )
             
-            #thanks - http://stackoverflow.com/questions/8600843/serving-large-files-with-high-loads-in-django
-            file_chunk_size = 8192
-            file_wrapper = FileWrapper(open(file_path), file_chunk_size)
+            writer.write( scanner.scan(), include_media = include_media, include_static = include_static, html_in_memory = True, zip_all = True, zip_in_memory = False )
+            
+            file_name_prefix = datetime.now().strftime('%Y%m%d_%H%M%S')
+            file_name = u'%s_%s' % (file_name_prefix, settings.FREEZE_ZIP_NAME, )
             
             response = StreamingHttpResponse(file_wrapper, content_type = 'application/zip')
             response['Content-Length'] = os.path.getsize(file_path)    
