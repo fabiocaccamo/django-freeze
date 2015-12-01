@@ -45,16 +45,22 @@ def download_static_site(request):
             file_name_prefix = datetime.now().strftime('%Y%m%d_%H%M%S')
             file_name = u'%s_%s' % (file_name_prefix, settings.FREEZE_ZIP_NAME, )
             
-            response = StreamingHttpResponse(file_wrapper, content_type = 'application/zip')
-            response['Content-Length'] = os.path.getsize(file_path)    
-            response['Content-Disposition'] = 'attachment; filename=%s' % (file_name, )
-            return response
+            return download_zip( name = file_name )
             
         except:
             return HttpResponseServerError()
     else:
         raise PermissionDenied
         
+        
+def download_zip(path = settings.FREEZE_ZIP_PATH, name = settings.FREEZE_ZIP_NAME):
+    
+    #http://stackoverflow.com/questions/8600843/serving-large-files-with-high-loads-in-django
+    response = StreamingHttpResponse(FileWrapper(open(path), 8192), content_type = 'application/zip')
+    response['Content-Length'] = os.path.getsize(path)    
+    response['Content-Disposition'] = 'attachment; filename=%s' % (name, )
+    return response
+    
         
 def generate_static_site(request):
     
