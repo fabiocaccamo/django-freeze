@@ -11,18 +11,8 @@ from bs4 import BeautifulSoup
 
 from freeze import settings
 
-
-def parse_request_text( req ):
     
-    text = u'%s' % (req.text, )
-    text = text.replace(settings.FREEZE_HOST, u'')
-    text = text.strip()
-    text = text.encode('utf-8')
-    
-    return text
-    
-    
-def parse_sitemap_urls():
+def parse_sitemap_urls( site_url = settings.FREEZE_SITE_URL ):
     
     urls = []
     
@@ -41,10 +31,10 @@ def parse_sitemap_urls():
         except NoReverseMatch:
             
             #raise NoReverseMatch('Reverse for \'django.contrib.sitemaps.views.sitemap\' or \'sitemap\' not found.')
-            sitemap_url = 'sitemap.xml'
+            sitemap_url = '/sitemap.xml'
             
     #load sitemap
-    sitemap_url = settings.FREEZE_HOST + sitemap_url
+    sitemap_url = site_url + sitemap_url
     sitemap_request = requests.get(sitemap_url)
     sitemap_request.encoding = 'utf-8'
     
@@ -70,10 +60,10 @@ def parse_sitemap_urls():
         urls = list(set(urls))
         urls.sort()
         
-    return (sitemap_url, urls, )
+    return urls
     
     
-def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = False, external_urls = False):
+def parse_html_urls(html, site_url = settings.FREEZE_SITE_URL, base_url = '/', media_urls = False, static_urls = False, external_urls = False):
     
     urls = []
     
@@ -83,7 +73,7 @@ def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = Fals
         url = url_node.get('href')
         
         if url:
-            url = url.replace(settings.FREEZE_HOST, u'')
+            url = url.replace(site_url, u'')
             
             if url.find(settings.FREEZE_MEDIA_URL) == 0 and not media_urls:
                 #skip media files urls
@@ -99,7 +89,7 @@ def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = Fals
                 
             elif url[0] == '/':
                 #url already start from the site root
-                url = settings.FREEZE_HOST + url
+                url = site_url + url
                 urls.append(url)
                 continue
                 
@@ -112,7 +102,7 @@ def parse_html_urls(html, base_url = '/', media_urls = False, static_urls = Fals
             else:
                 #since it's a relative url let's merge it with the current page path
                 url = os.path.normpath(os.path.abspath(os.path.normpath(base_url + '/' + url)))
-                url = settings.FREEZE_HOST + url
+                url = site_url + url
                 urls.append(url)
                 
     urls = list(set(urls))

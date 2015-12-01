@@ -25,11 +25,7 @@ FREEZE_USE_HTTPS = getattr(settings, 'FREEZE_USE_HTTPS', False)
 FREEZE_SITE = Site.objects.get_current()
 FREEZE_PROTOCOL = 'https://' if FREEZE_USE_HTTPS else 'http://'
 FREEZE_DOMAIN = FREEZE_SITE.domain
-
-if FREEZE_DOMAIN.endswith('/'):
-    FREEZE_DOMAIN = FREEZE_DOMAIN[0:-1]
-    
-FREEZE_HOST = FREEZE_PROTOCOL + FREEZE_DOMAIN
+FREEZE_SITE_URL = getattr(settings, 'FREEZE_SITE_URL', '%s%s' % (FREEZE_PROTOCOL, FREEZE_DOMAIN, ))
 
 FREEZE_BASE_URL = getattr(settings, 'FREEZE_BASE_URL', None)
 
