@@ -4,14 +4,16 @@ django-freeze generates the static version of your django site.
 Just run ``python manage.py generate_static_site`` :)
 
 ##Features
-- Generate the static version of your django site (optionally compressed in a **.zip** file)
-- Follow all urls founded in **sitemap.xml** (if exists) and recursively all urls founded in each page
+
+- **Generate** the **static version** of your Django site, optionally compressed **.zip file**
+- **Generate/download** the static site using **urls** *(only superuser and staff)*
+- Follow **sitemap.xml** urls
+- Follow **internal links** founded in each page
 - Follow **redirects**
-- Report invalid/broken urls
-- Possibility to include/exclude media and static files and specify for which apps include static files
-- Possibility to generate/download the static site using **urls** (only superuser and staff)
-- Possibility to specify a base url (very useful if the static site will run in a specific folder which is not the document-root)
-- **NEW** Possibility to convert all urls to relative urls (very useful if the static site will run offline or in an unknown folder which is not the document-root)
+- **Report** invalid/broken urls
+- Selectively **include/exclude media and static files**
+- Custom **base url** *(very useful if the static site will run in a specific folder different by the document-root)*
+- Convert urls to **relative urls** *(very useful if the static site will run offline or in an unknown folder different by the document-root)*
 
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
@@ -106,7 +108,7 @@ Superusers and staff can use the following urls to **download a .zip** containin
 ##License
 The MIT License (MIT)
 
-Copyright (c) 2015 Fabio Caccamo - fabio.caccamo@gmail.com
+Copyright (c) 2016 Fabio Caccamo - fabio.caccamo@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
