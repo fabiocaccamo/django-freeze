@@ -35,10 +35,13 @@ All these settings are optional, if not defined in ``settings.py`` the default v
 #default value is a folder named 'freeze' located as sibling of 'settings.MEDIA_ROOT'
 FREEZE_ROOT = '/...' 
 
-#tells 'freeze' if the urls should be fetched using https instead of http protocol
+#tells 'freeze' if the urls should be fetched using https instead of http protocol (only if FREEZE_SITE_URL is not defined)
 FREEZE_USE_HTTPS = False
 
-#the base url for all links relative to root, useful if the generated static site will be placed in a folder which is not the document-root
+#the site-url to crawl, if not specified it will be autodetected using the sites app
+FREEZE_SITE_URL = 'http://mydomain.com'
+
+#the base-url for all links relative to root, useful if the generated static site will be placed in a folder which is not the document-root
 FREEZE_BASE_URL = '/'
 
 #if True 'freeze' will fetch each url founded in sitemap.xml
@@ -53,14 +56,15 @@ FREEZE_REPORT_INVALID_URLS = False
 #the invalid urls email report subject
 FREEZE_REPORT_INVALID_URLS_SUBJECT = '[freeze] invalid urls'
 
-#if True the generated site will contain also the MEDIA folder and all its content
+#if True the generated site will contain also the MEDIA folder and ALL its content
 FREEZE_INCLUDE_MEDIA = True
+#elif the value is a list or tuple only the specified directories will be included
+FREEZE_INCLUDE_MEDIA = ('cache', 'images', 'videos', )
 
-#if True the generated site will contain also the STATIC folder and all its content
+#if True the generated site will contain also the STATIC folder and ALL its content
 FREEZE_INCLUDE_STATIC = True
-
-#a tuple containing the list of the apps for which include static files, if empty or None all static files will be included
-FREEZE_INCLUDE_STATIC_APPS = ()
+#elif the value is a list or tuple only the specified directories will be included
+FREEZE_INCLUDE_STATIC = ('myapp1', 'myapp2', 'myapp3', )
 
 #if True the generated site will be zipped, the *.zip file will be created in FREEZE_ROOT
 FREEZE_ZIP_ALL = False
