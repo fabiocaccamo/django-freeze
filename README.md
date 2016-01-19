@@ -10,11 +10,12 @@ Just run ``python manage.py generate_static_site`` :)
 - Report invalid/broken urls
 - Possibility to include/exclude media and static files and specify for which apps include static files
 - Possibility to generate/download the static site using **urls** (only superuser and staff)
-- Possibility to specify a base url (very useful if the static site will not run on a document root)
+- Possibility to specify a base url (very useful if the static site will run in a specific folder which is not the document-root)
+- **NEW** Possibility to convert all urls to relative urls (very useful if the static site will run offline or in an unknown folder which is not the document-root)
 
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
-- Django 1.6.5 through Django 1.8
+- Django 1.6.5 through Django 1.8.x
 - BeautifulSoup4
 - requests
 - xmltodict
@@ -41,8 +42,13 @@ FREEZE_USE_HTTPS = False
 #the site-url to crawl, if not specified it will be autodetected using the sites app
 FREEZE_SITE_URL = 'http://mydomain.com'
 
-#the base-url for all links relative to root, useful if the generated static site will be placed in a folder which is not the document-root
-FREEZE_BASE_URL = '/'
+#the base-url for all links relative to root '/'
+#useful if the generated static site will run in a specific folder which is not the document-root
+FREEZE_BASE_URL = None
+
+#if True 'freeze' will convert all absolute urls to relative urls
+#useful if the generated static site will run offline or in an unknown folder which is not the document-root (only if FREEZE_BASE_URL is not defined)
+FREEZE_RELATIVE_URLS = False
 
 #if True 'freeze' will fetch each url founded in sitemap.xml
 FREEZE_FOLLOW_SITEMAP_URLS = True
