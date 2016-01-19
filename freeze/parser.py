@@ -115,18 +115,6 @@ def replace_base_url(text, base_url):
     
     if base_url != None:
         
-        #replace base url for all urls relative to root between "" or ''
-        def sub_base_url(match_obj):
-            
-            startquote = match_obj.group(1)
-            url = (match_obj.group(4) or '')
-            endquote = match_obj.group(6)
-            
-            return startquote + base_url + url + endquote
-
-        text = re.sub(r'(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")', sub_base_url, text)
-        text = re.sub(r'(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')', sub_base_url, text)
-        
         media_url = settings.FREEZE_MEDIA_URL
 
         if media_url.startswith('/'):
@@ -148,6 +136,18 @@ def replace_base_url(text, base_url):
             #replace base url for static urls outside quotes
             text = re.sub(r'([^\"\'\-\_\w\d])' + static_url, r'\1' + base_url + static_url[1:], text)
             
+        #replace base url for all urls relative to root between "" or ''
+        def sub_base_url(match_obj):
+            
+            startquote = match_obj.group(1)
+            url = (match_obj.group(4) or '')
+            endquote = match_obj.group(6)
+            
+            return startquote + base_url + url + endquote
+
+        text = re.sub(r'(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")', sub_base_url, text)
+        text = re.sub(r'(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')', sub_base_url, text)
+        
         #replace base url in case of <meta http-equiv="refresh" content="0; url=/en/" />
         text = re.sub(r'url=/', 'url=' + base_url, text)
         

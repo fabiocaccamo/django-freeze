@@ -114,7 +114,18 @@ def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_U
             #print('file path: ' + file_path)
             #print('---')
             
-            file_data = parser.replace_base_url( html, base_url )
+            file_base_url = base_url
+            
+            if file_base_url == None and settings.FREEZE_RELATIVE_URLS:
+                
+                file_depth = len(filter(bool, file_dirs.split('/')))
+                
+                if file_depth > 0:
+                    file_base_url = '../' * file_depth
+                else:
+                    file_base_url = ''
+            
+            file_data = parser.replace_base_url( html, file_base_url )
             
             urls_data.append({ 
                 'url': url, 
