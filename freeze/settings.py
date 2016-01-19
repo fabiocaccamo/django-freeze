@@ -39,7 +39,7 @@ if FREEZE_BASE_URL:
         if FREEZE_BASE_URL == '/':
             FREEZE_BASE_URL = None
     else:
-        raise ImproperlyConfigured('settings.FREEZE_BASE_URL shoud start with \'/\' or \'http\' or be an empty string')
+        raise ImproperlyConfigured('settings.FREEZE_BASE_URL should start with \'/\' or \'http\' or be an empty string')
     
     
 FREEZE_FOLLOW_SITEMAP_URLS = getattr(settings, 'FREEZE_FOLLOW_SITEMAP_URLS', True)
