@@ -10,7 +10,18 @@
         </noscript>
         
         <script>
-            document.location.replace('{{ redirect_url }}');
+            var redirectURL = '{{ redirect_url }}';
+            
+            if((redirectURL.length > 0) && (redirectURL.slice(-1) == '/') && (window.location.protocol.indexOf('file') == 0)){
+                redirectURL += 'index.html';
+            }
+            
+            try {
+                window.location.replace(redirectURL);    
+            } 
+            catch(error){
+                window.location.href = redirectURL;
+            }
         </script>
         
     </head>
