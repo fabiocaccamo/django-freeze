@@ -14,6 +14,7 @@ Just run ``python manage.py generate_static_site`` :)
 - Selectively **include/exclude media and static files**
 - Custom **base url** *(very useful if the static site will run in a specific folder different by the document-root)*
 - Convert urls to **relative urls** *(very useful if the static site will run offline or in an unknown folder different by the document-root)*
+- Prevent local directory index
 
 ##Requirements / Dependencies
 - Python 2.6, Python 2.7
@@ -49,8 +50,13 @@ FREEZE_SITE_URL = 'http://mydomain.com'
 FREEZE_BASE_URL = None
 
 #if True 'freeze' will convert all absolute urls to relative urls
-#useful if the generated static site will run offline or in an unknown folder which is not the document-root (only if FREEZE_BASE_URL is not defined)
+#useful if the generated static site will run locally (file://) or in an unknown folder which is not the document-root (only if FREEZE_BASE_URL is not defined)
 FREEZE_RELATIVE_URLS = False
+
+#if True 'freeze' will inject a script at the end of each page
+#which will force hrefs like 'path/' to 'path/index.html' (only if the site is running under file://)
+#useful if the generated static site will run locally (requires FREEZE_RELATIVE_URLS set to True) to prevent local directory index
+FREEZE_LOCAL_URLS = False
 
 #if True 'freeze' will fetch each url founded in sitemap.xml
 FREEZE_FOLLOW_SITEMAP_URLS = True
