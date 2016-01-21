@@ -43,7 +43,11 @@ FREEZE_RELATIVE_URLS = getattr(settings, 'FREEZE_RELATIVE_URLS', False)
 if FREEZE_RELATIVE_URLS and FREEZE_BASE_URL != None:
     raise ImproperlyConfigured('settings.FREEZE_RELATIVE_URLS cannot be set to True if FREEZE_BASE_URL is specified')
     
-    
+FREEZE_LOCAL_URLS = getattr(settings, 'FREEZE_LOCAL_URLS', False)
+
+if FREEZE_LOCAL_URLS and not FREEZE_RELATIVE_URLS:
+    raise ImproperlyConfigured('settings.FREEZE_LOCAL_URLS cannot be set to True if FREEZE_RELATIVE_URLS is set to False')
+
 FREEZE_FOLLOW_SITEMAP_URLS = getattr(settings, 'FREEZE_FOLLOW_SITEMAP_URLS', True)
 FREEZE_FOLLOW_HTML_URLS = getattr(settings, 'FREEZE_FOLLOW_HTML_URLS', True)
 

@@ -12,9 +12,14 @@
         <script>
             var redirectURL = '{{ redirect_url }}';
             
-            if((redirectURL.length > 0) && (redirectURL.slice(-1) == '/') && (window.location.protocol.indexOf('file') == 0)){
-                redirectURL += 'index.html';
+            {% if local_urls %}
+            if(window.location.protocol.indexOf('file') == 0){
+                
+                if((redirectURL.length > 0) && (redirectURL.slice(-1) == String.fromCharCode(47))){
+                    redirectURL += 'index.html';
+                }
             }
+            {% endif %}
             
             try {
                 window.location.replace(redirectURL);    

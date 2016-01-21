@@ -9,7 +9,7 @@ import requests
 from freeze import settings, parser
 
 
-def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_URL, follow_sitemap_urls = settings.FREEZE_FOLLOW_SITEMAP_URLS, follow_html_urls = settings.FREEZE_FOLLOW_HTML_URLS, report_invalid_urls = settings.FREEZE_REPORT_INVALID_URLS ):
+def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_URL, relative_urls = settings.FREEZE_RELATIVE_URLS, local_urls = settings.FREEZE_LOCAL_URLS, follow_sitemap_urls = settings.FREEZE_FOLLOW_SITEMAP_URLS, follow_html_urls = settings.FREEZE_FOLLOW_HTML_URLS, report_invalid_urls = settings.FREEZE_REPORT_INVALID_URLS ):
     
     if site_url.endswith('/'):
         site_url = site_url[0:-1]
@@ -81,7 +81,12 @@ def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_U
                     
                 redirect_url = req.url.replace(site_url, u'')
                 
-                html_str = render_to_string('freeze/redirect.html', { 'redirect_url':req.url.replace(site_url, u'') })
+                html_data = {
+                    'redirect_url':redirect_url, 
+                    'local_urls':settings.FREEZE_LOCAL_URLS, 
+                }
+
+                html_str = render_to_string('freeze/redirect.html', html_data)
                 html = u'%s' % (html_str, )
                 
                 print(u'[OK FOLLOW REDIRECT] -> %s' % (req.url, ))
@@ -91,6 +96,12 @@ def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_U
                 html = u'%s' % (req.text, )
                 html = html.replace(site_url, u'')
                 html = html.strip()
+                
+                if local_urls:
+                    
+                    #prevent local directory index
+                    html = html.replace('</body>', '<script>' + render_to_string('freeze/js/local_urls.js') + '</script></body>')
+                    
                 html = html.encode('utf-8')
                 
                 print(u'[OK]')
@@ -108,15 +119,9 @@ def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_U
                 file_name = 'index.html'
             
             file_path = os.path.join(file_dirs, file_name)
-            
-            #print('file dirs: ' + file_dirs)
-            #print('file name: ' + file_name)
-            #print('file path: ' + file_path)
-            #print('---')
-            
             file_base_url = base_url
             
-            if file_base_url == None and settings.FREEZE_RELATIVE_URLS:
+            if relative_urls:
                 
                 file_depth = len(filter(bool, file_dirs.split('/')))
                 
@@ -126,7 +131,14 @@ def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_U
                     file_base_url = ''
             
             file_data = parser.replace_base_url( html, file_base_url )
-            
+
+            #print('file dirs: ' + file_dirs)
+            #print('file name: ' + file_name)
+            #print('file path: ' + file_path)
+            #print('file base url: ' + file_base_url)
+            #print('file data: ' + file_data)
+            #print('---')
+
             urls_data.append({ 
                 'url': url, 
                 'file_dirs': file_dirs, 
