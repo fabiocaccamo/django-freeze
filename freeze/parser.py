@@ -67,9 +67,9 @@ def parse_html_urls(html, site_url = settings.FREEZE_SITE_URL, base_url = '/', m
     
     urls = []
     
-    html_soup = BeautifulSoup(html, 'html5lib')
-          
-    for url_node in html_soup.findAll('a'):
+    soup = BeautifulSoup(html, 'html5lib')
+
+    for url_node in soup.findAll('a'):
         url = url_node.get('href')
         
         if url:
