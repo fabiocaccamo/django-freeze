@@ -3,7 +3,7 @@ django-freeze generates the static version of your django site.
 
 Just run ``python manage.py generate_static_site`` :)
 
-##Features
+## Features
 
 - **Generate** the **static version** of your Django site, optionally compressed **.zip file**
 - **Generate/download** the static site using **urls** *(only superuser and staff)*
@@ -16,20 +16,20 @@ Just run ``python manage.py generate_static_site`` :)
 - Convert urls to **relative urls** *(very useful if the static site will run offline or in an unknown folder different by the document-root)*
 - Prevent local directory index
 
-##Requirements / Dependencies
+## Requirements / Dependencies
 - Python 2.6, Python 2.7
 - Django 1.6.5 through Django 1.8.x
 - BeautifulSoup4
 - requests
 - xmltodict
 
-##Installation
+## Installation
 - Run ``pip install django-freeze`` or manually download [django-freeze](https://pypi.python.org/pypi/django-freeze), [BeautifulSoup4](https://pypi.python.org/pypi/beautifulsoup4), 
 [requests](https://pypi.python.org/pypi/requests/), [xmltodict](https://pypi.python.org/pypi/xmltodict)
 - Add ``freeze`` to ``settings.INSTALLED_APPS``
 - Restart your application server
 
-##Configuration (optional)
+## Configuration (optional)
 
 All these settings are optional, if not defined in ``settings.py`` the default values (listed below) will be used.
 
@@ -96,13 +96,13 @@ urlpatterns = patterns('',
 )
 ```
 
-##Usage
+## Usage
 
-####Terminal
+#### Terminal
 
 Run ``python manage.py generate_static_site`` 
 
-####URL
+#### URLs
 Superusers and staff can use the following urls to **download a .zip** containing the generated static site or to just generate the static website.
 
 ``/freeze/download-static-site/``
@@ -111,5 +111,5 @@ Superusers and staff can use the following urls to **download a .zip** containin
 
 *(the time necessary to generate the static site depends on the size of the project)*
 
-##License
+## License
 Released under [MIT License](LICENSE).
