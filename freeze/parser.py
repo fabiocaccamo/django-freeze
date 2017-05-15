@@ -51,9 +51,12 @@ def parse_sitemap_urls( site_url = settings.FREEZE_SITE_URL ):
     if sitemap_ok:
         
         sitemap_urls_data = sitemap_data.get('urlset', {}).get('url', {})
-        
+
+        #this happens if the sitemap only has a single entry
+        if 'loc' in sitemap_urls_data:
+            sitemap_urls_data = [sitemap_urls_data]
+
         for sitemap_url_data in sitemap_urls_data:
-            
             url = sitemap_url_data.get('loc', '')
             urls.append(url)
             

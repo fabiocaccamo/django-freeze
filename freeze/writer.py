@@ -52,7 +52,13 @@ def write(data, include_media = settings.FREEZE_INCLUDE_MEDIA, include_static = 
         print(u'create file: %s' % (file_path, ))
         
         file_obj = open(file_path, 'wb')
-        file_obj.write(file_data)
+        encoded_file_data = file_data
+        try:
+            encoded_file_data = bytes(file_data, 'utf-8')
+        except TypeError:
+            pass
+
+        file_obj.write(encoded_file_data)
         file_obj.close()
         
         
