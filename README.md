@@ -111,7 +111,7 @@ Superusers and staff can use the following urls to **download a .zip** containin
 
 *(the time necessary to generate the static site depends on the size of the project)*
 
-#### TODO
+## TODO
 - Write tests
 - Add sitemap.xml and robots.txt to the generated static site
 
