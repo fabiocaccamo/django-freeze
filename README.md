@@ -17,8 +17,8 @@ Just run ``python manage.py generate_static_site`` :)
 - Prevent local directory index
 
 ## Requirements / Dependencies
-- Python 2.6, Python 2.7
-- Django 1.6.5 through Django 1.8.x
+- Python 2.6, Python 2.7, Python 3.5
+- Django 1.6.5 through Django 1.10
 - BeautifulSoup4
 - requests
 - xmltodict
@@ -110,6 +110,10 @@ Superusers and staff can use the following urls to **download a .zip** containin
 ``/freeze/generate-static-site/``
 
 *(the time necessary to generate the static site depends on the size of the project)*
+
+#### TODO
+- Write tests
+- Add sitemap.xml and robots.txt to the generated static site
 
 ## License
 Released under [MIT License](LICENSE).
