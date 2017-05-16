@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.core.exceptions import PermissionDenied
-from django.core.servers.basehttp import FileWrapper
+
+from wsgiref.util import FileWrapper
+
 from django.http import HttpResponse
 from django.http import HttpResponseServerError
 from django.http import StreamingHttpResponse
