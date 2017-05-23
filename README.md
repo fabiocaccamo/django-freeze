@@ -84,7 +84,12 @@ FREEZE_INCLUDE_STATIC = ('myapp1', 'myapp2', 'myapp3', )
 FREEZE_ZIP_ALL = False
 
 #the name of the zip file created
-FREEZE_ZIP_NAME = 'freeze' 
+FREEZE_ZIP_NAME = 'freeze'
+
+#The request headers to use during the get requests that scrape the site
+#can be used to set Authentication headers, by default sets the user-agent
+FREEZE_REQUEST_HEADERS = {'user-agent': 'django-freeze'}
+
 ```
 Add **freeze.urls** to ``urls.py`` if you want superusers and staff able to use freeze urls.
 
@@ -95,9 +100,6 @@ urlpatterns = patterns('',
     ...
 )
 ```
-#The request headers to use during the get requests that scrape the site
-#can be used to set Authentication headers, by default sets the user-agent
-FREEZE_REQUEST_HEADERS = {'user-agent': 'django-freeze'}
 
 ## Usage
 

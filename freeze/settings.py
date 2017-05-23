@@ -65,4 +65,4 @@ if len(FREEZE_ZIP_NAME) >= 4 and FREEZE_ZIP_NAME[-4:].lower() != '.zip':
 
 FREEZE_ZIP_PATH = os.path.abspath(os.path.join(FREEZE_ROOT, FREEZE_ZIP_NAME))
 
-FREEZE_REQUEST_HEADERS = {'user-agent': 'django-freeze'}
+FREEZE_REQUEST_HEADERS = getattr(settings, 'FREEZE_REQUEST_HEADERS', {'user-agent': 'django-freeze'})
