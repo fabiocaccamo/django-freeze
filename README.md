@@ -95,6 +95,9 @@ urlpatterns = patterns('',
     ...
 )
 ```
+#The request headers to use during the get requests that scrape the site
+#can be used to set Authentication headers, by default sets the user-agent
+FREEZE_REQUEST_HEADERS = {'user-agent': 'django-freeze'}
 
 ## Usage
 
