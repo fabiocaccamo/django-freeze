@@ -9,7 +9,7 @@ import requests
 from freeze import settings, parser
 
 
-def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_URL, relative_urls = settings.FREEZE_RELATIVE_URLS, local_urls = settings.FREEZE_LOCAL_URLS, follow_sitemap_urls = settings.FREEZE_FOLLOW_SITEMAP_URLS, follow_html_urls = settings.FREEZE_FOLLOW_HTML_URLS, report_invalid_urls = settings.FREEZE_REPORT_INVALID_URLS ):
+def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_URL, relative_urls = settings.FREEZE_RELATIVE_URLS, local_urls = settings.FREEZE_LOCAL_URLS, follow_sitemap_urls = settings.FREEZE_FOLLOW_SITEMAP_URLS, follow_html_urls = settings.FREEZE_FOLLOW_HTML_URLS, report_invalid_urls = settings.FREEZE_REPORT_INVALID_URLS, request_headers = settings.FREEZE_REQUEST_HEADERS ):
     
     if site_url.endswith('/'):
         site_url = site_url[0:-1]
@@ -60,7 +60,7 @@ def scan( site_url = settings.FREEZE_SITE_URL, base_url = settings.FREEZE_BASE_U
             
         print(u'\nfetch url: %s' % (url, ))
         
-        req = requests.get(url)
+        req = requests.get(url, headers=request_headers)
         req.encoding = 'utf-8'
         
         if req.status_code == requests.codes.ok:
