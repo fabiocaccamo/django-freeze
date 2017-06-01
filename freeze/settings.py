@@ -22,10 +22,13 @@ FREEZE_STATIC_ROOT = settings.STATIC_ROOT
 FREEZE_STATIC_URL = settings.STATIC_URL
 
 FREEZE_USE_HTTPS = getattr(settings, 'FREEZE_USE_HTTPS', False)
-FREEZE_SITE = Site.objects.get_current()
 FREEZE_PROTOCOL = 'https://' if FREEZE_USE_HTTPS else 'http://'
-FREEZE_DOMAIN = FREEZE_SITE.domain
-FREEZE_SITE_URL = getattr(settings, 'FREEZE_SITE_URL', '%s%s' % (FREEZE_PROTOCOL, FREEZE_DOMAIN, ))
+FREEZE_SITE_URL = getattr(settings, 'FREEZE_SITE_URL', None)
+if(FREEZE_SITE_URL == None):
+    # handled this way to remove DB dependency unless strictly needed.  If FREEZE_SITE_URL is set then collectstatic
+    # can be called without needing a db setup, which is useful for build servers
+    FREEZE_SITE_URL = '%s%s' % (FREEZE_PROTOCOL, Site.objects.get_current().domain,)
+
 
 FREEZE_BASE_URL = getattr(settings, 'FREEZE_BASE_URL', None)
 
