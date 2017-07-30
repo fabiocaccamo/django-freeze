@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from freeze import settings
 
     
-def parse_sitemap_urls( site_url = settings.FREEZE_SITE_URL ):
+def parse_sitemap_urls( site_url = settings.FREEZE_SITE_URL, request_headers = settings.FREEZE_REQUEST_HEADERS ):
     
     urls = []
     
@@ -35,7 +35,7 @@ def parse_sitemap_urls( site_url = settings.FREEZE_SITE_URL ):
             
     #load sitemap
     sitemap_url = site_url + sitemap_url
-    sitemap_request = requests.get(sitemap_url)
+    sitemap_request = requests.get(sitemap_url, headers=request_headers)
     sitemap_request.encoding = 'utf-8'
     
     if sitemap_request.status_code == requests.codes.ok:
