@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from django.core.urlresolvers import reverse, NoReverseMatch
+try:
+    from django.core.urlresolvers import reverse, NoReverseMatch
+except ImportError:
+    from django.urls import reverse, NoReverseMatch
 
 import os
 import re
