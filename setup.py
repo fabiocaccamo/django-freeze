@@ -8,7 +8,7 @@ from freeze import __version__
 
 setup(
     name='django-freeze',
-    packages=['freeze'],
+    packages=['freeze', 'freeze.management', 'freeze.management.commands'],
     include_package_data=True,
     license='MIT License',
     version=__version__,
