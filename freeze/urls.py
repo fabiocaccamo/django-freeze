@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 if django.VERSION < (2, 0):
-    from django.conf.urls import include, url as path
+    from django.conf.urls import url as path
 else:
-    from django.urls import include, path
+    from django.urls import path
 
 from freeze import views
 
