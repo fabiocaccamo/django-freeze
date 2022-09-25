@@ -1,3 +1,4 @@
 include LICENSE.txt
 include README.md
 recursive-include freeze/templates *
+recursive-exclude * *.pyc __pycache__ .DS_Store
