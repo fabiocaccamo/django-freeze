@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 
-try:
-    from django.core.urlresolvers import reverse, NoReverseMatch
-except ImportError:
-    from django.urls import reverse, NoReverseMatch
+from bs4 import BeautifulSoup
+
+from django.urls import reverse, NoReverseMatch
+
+from freeze import settings
 
 import os
 import re
 import requests
 import xmltodict
-
-from bs4 import BeautifulSoup
-
-from freeze import settings
 
 
 def parse_sitemap_urls(

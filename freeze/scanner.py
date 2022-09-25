@@ -3,10 +3,10 @@
 from django.core.mail import mail_managers
 from django.template.loader import render_to_string
 
+from freeze import settings, parser
+
 import os
 import requests
-
-from freeze import settings, parser
 
 
 def scan(

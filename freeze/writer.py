@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from freeze import settings
+
 from io import open
 from io import BytesIO
 
@@ -7,8 +9,6 @@ import os
 import shutil
 import tempfile
 import zipfile
-
-from freeze import settings
 
 
 def write(
