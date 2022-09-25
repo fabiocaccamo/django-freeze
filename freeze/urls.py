@@ -3,7 +3,10 @@
 import django
 
 if django.VERSION < (2, 0):
-    from django.conf.urls import url as re_path
+    try:
+        from django.conf.urls import url as re_path
+    except ImportError:
+        from django.core.urlresolvers import url as re_path
 else:
     from django.urls import re_path
 
