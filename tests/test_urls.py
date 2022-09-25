@@ -1,15 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import django
-
-if django.VERSION < (2, 0):
-    try:
-        from django.conf.urls import reverse
-    except ImportError:
-        from django.core.urlresolvers import reverse
-else:
-    from django.urls import reverse
-
+from django.urls import reverse
 from django.test import TestCase
 
 
