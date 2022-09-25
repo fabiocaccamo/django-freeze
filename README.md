@@ -128,6 +128,28 @@ Superusers and staff can use the following urls to **download a .zip** containin
 - Write tests
 - Add `sitemap.xml` and `robots.txt` to the generated static site
 
+## Testing
+```bash
+# clone repository
+git clone https://github.com/fabiocaccamo/django-extra-settings.git && cd django-extra-settings
+
+# create virtualenv and activate it
+python -m venv venv && . venv/bin/activate
+
+# upgrade pip
+python -m pip install --upgrade pip
+
+# install requirements
+pip install -r requirements.txt -r requirements-test.txt
+
+# run tests
+tox
+# or
+python setup.py test
+# or
+python -m django test --settings "tests.settings"
+```
+
 ## License
 Released under [MIT License](LICENSE.txt).
 
