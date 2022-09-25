@@ -2,8 +2,7 @@
 
 from freeze import settings
 
-from io import open
-from io import BytesIO
+from io import BytesIO, open
 
 import os
 import shutil
