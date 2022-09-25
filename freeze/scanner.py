@@ -5,8 +5,12 @@ from django.template.loader import render_to_string
 
 from freeze import settings, parser
 
+import logging
 import os
 import requests
+
+
+logger = logging.getLogger(__name__)
 
 
 def scan(
@@ -35,12 +39,12 @@ def scan(
     memo = []
     errs = []
 
-    print("fetch urls...")
+    logger.info("fetch urls...")
 
     def scan_error(req):
         err = f"[ERROR {req.status_code}]"
         errs.append(f"{err} {req.url}")
-        print(err)
+        logger.info(err)
 
     def scan_url(url):
 
@@ -60,7 +64,7 @@ def scan(
         else:
             return
 
-        print(f"\nfetch url: {url}")
+        logger.info(f"\nfetch url: {url}")
 
         req = requests.get(url, headers=request_headers)
         req.encoding = "utf-8"
@@ -77,7 +81,7 @@ def scan(
 
                 if req.url.find(site_url) != 0:
                     # redirected to a page of another domain
-                    print(f"[OK DONT FOLLOW REDIRECT] -> {req.url}")
+                    logger.info(f"[OK DONT FOLLOW REDIRECT] -> {req.url}")
                     return
 
                 redirect_url = req.url.replace(site_url, "")
@@ -88,7 +92,7 @@ def scan(
 
                 html_str = render_to_string("freeze/redirect.html", html_data)
                 html = f"{html_str}"
-                print(f"[OK FOLLOW REDIRECT] -> {req.url}")
+                logger.info(f"[OK FOLLOW REDIRECT] -> {req.url}")
 
             else:
 
@@ -106,17 +110,17 @@ def scan(
                     )
 
                 html = html.encode("utf-8")
-                print("[OK]")
+                logger.info("[OK]")
 
             path = os.path.normpath(url.replace(site_url, ""))
 
             if path.endswith(".html"):
-                # print('path (HTML) -> ' + path)
+                logger.debug("path (HTML) -> " + path)
                 file_slash = path.rfind("/") + 1
                 file_dirs = path[0:file_slash]
                 file_name = path[file_slash:]
             else:
-                # print('path -> ' + path)
+                logger.debug("path -> " + path)
                 file_dirs = path
                 file_name = "index.html"
 
@@ -132,12 +136,12 @@ def scan(
 
             file_data = parser.replace_base_url(html, file_base_url)
 
-            # print('file dirs: ' + file_dirs)
-            # print('file name: ' + file_name)
-            # print('file path: ' + file_path)
-            # print('file base url: ' + file_base_url)
-            # print('file data: ' + file_data)
-            # print('---')
+            logger.debug("file dirs: " + file_dirs)
+            logger.debug("file name: " + file_name)
+            logger.debug("file path: " + file_path)
+            logger.debug("file base url: " + file_base_url)
+            logger.debug("file data: " + file_data)
+            logger.debug("---")
 
             urls_data.append(
                 {

@@ -6,10 +6,14 @@ from django.urls import reverse, NoReverseMatch
 
 from freeze import settings
 
+import logging
 import os
 import re
 import requests
 import xmltodict
+
+
+logger = logging.getLogger(__name__)
 
 
 def parse_sitemap_urls(
@@ -41,9 +45,9 @@ def parse_sitemap_urls(
             sitemap_data = xmltodict.parse(sitemap_request.text)
             sitemap_ok = True
         except:
-            print("sitemap parsing error...")
+            logger.info("sitemap parsing error...")
     else:
-        print("sitemap not founded...")
+        logger.info("sitemap not found...")
 
     if sitemap_ok:
         sitemap_urls_data = sitemap_data.get("urlset", {}).get("url", {})
@@ -154,7 +158,5 @@ def replace_base_url(text, base_url):
 
         # replace base url in sitemap.xml
         text = re.sub(r"<loc>/", "<loc>" + base_url, text)
-
-        # print(text)
 
     return text

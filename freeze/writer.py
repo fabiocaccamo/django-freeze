@@ -4,10 +4,14 @@ from freeze import settings
 
 from io import BytesIO, open
 
+import logging
 import os
 import shutil
 import tempfile
 import zipfile
+
+
+logger = logging.getLogger(__name__)
 
 
 def write(
@@ -29,10 +33,10 @@ def write(
     files_root = tempfile.mkdtemp() if html_in_memory else settings.FREEZE_ROOT
 
     if html_in_memory:
-        print("\ncreate site tree and write it to a temporary directory...")
+        logger.info("\ncreate site tree and write it to a temporary directory...")
         files_root = tempfile.mkdtemp()
     else:
-        print("\ncreate site tree and write it to disk...")
+        logger.info("\ncreate site tree and write it to disk...")
         files_root = settings.FREEZE_ROOT
         if not os.path.exists(files_root):
             os.makedirs(files_root)
@@ -44,9 +48,9 @@ def write(
         file_data = d["file_data"]
         if not os.path.exists(file_dirs):
             os.makedirs(file_dirs)
-            # print(f"create directory: {file_dirs}")
+            logger.info(f"create directory: {file_dirs}")
 
-        print(f"create file: {file_path}")
+        logger.info(f"create file: {file_path}")
         file_obj = open(file_path, "wb")
         encoded_file_data = file_data
         try:
@@ -58,7 +62,7 @@ def write(
         file_obj.close()
 
     if zip_all:
-        print("\nzip files...")
+        logger.info("\nzip files...")
         if zip_in_memory:
             zip_file_stream = BytesIO()
             zip_file = zipfile.ZipFile(zip_file_stream, "w")
@@ -69,14 +73,14 @@ def write(
         file_src_path = os.path.normpath(files_root + d["file_path"])
         if zip_all:
             file_rel_path = d["file_path"]
-            print(f"zip file: {file_rel_path}")
+            logger.info(f"zip file: {file_rel_path}")
             zip_file.write(file_src_path, file_rel_path)
 
     if include_static:
         if zip_all:
-            print("\nzip static files...")
+            logger.info("\nzip static files...")
         else:
-            print("\ncopy static files...")
+            logger.info("\ncopy static files...")
 
         include_static_dirs = isinstance(include_static, (list, tuple))
 
@@ -103,14 +107,14 @@ def write(
                 ]
 
                 if zip_all:
-                    print(f"zip static file: {file_dst_path}")
+                    logger.info(f"zip static file: {file_dst_path}")
                     zip_file.write(file_src_path, file_dst_path)
                 else:
                     file_dst_path = os.path.normpath(
                         settings.FREEZE_ROOT + "/" + file_dst_path
                     )
                     file_dst_dirname = os.path.dirname(file_dst_path)
-                    print(f"copy static file: {file_src_path} - {file_dst_path}")
+                    logger.info(f"copy static file: {file_src_path} - {file_dst_path}")
 
                     if not os.path.exists(file_dst_dirname):
                         os.makedirs(file_dst_dirname)
@@ -119,9 +123,9 @@ def write(
 
     if include_media:
         if zip_all:
-            print("\nzip media files...")
+            logger.info("\nzip media files...")
         else:
-            print("\ncopy media files...")
+            logger.info("\ncopy media files...")
 
         include_media_dirs = isinstance(include_media, (list, tuple))
         for root, dirs, files in os.walk(settings.FREEZE_MEDIA_ROOT):
@@ -146,14 +150,14 @@ def write(
                     file_src_path.find(settings.FREEZE_MEDIA_URL) :
                 ]
                 if zip_all:
-                    print(f"zip media file: {file_dst_path}")
+                    logger.info(f"zip media file: {file_dst_path}")
                     zip_file.write(file_src_path, file_dst_path)
                 else:
                     file_dst_path = os.path.normpath(
                         settings.FREEZE_ROOT + "/" + file_dst_path
                     )
                     file_dst_dirname = os.path.dirname(file_dst_path)
-                    print(f"copy media file: {file_src_path} - {file_dst_path}")
+                    logger.info(f"copy media file: {file_src_path} - {file_dst_path}")
 
                     if not os.path.exists(file_dst_dirname):
                         os.makedirs(file_dst_dirname)
@@ -168,6 +172,6 @@ def write(
             zip_file_stream.close()
             return zip_file_stream_value
         else:
-            print(f"\nstatic site zipped ready at: {settings.FREEZE_ZIP_PATH}")
+            logger.info(f"\nstatic site zipped ready at: {settings.FREEZE_ZIP_PATH}")
     else:
-        print(f"\nstatic site ready at: {settings.FREEZE_ROOT}")
+        logger.info(f"\nstatic site ready at: {settings.FREEZE_ROOT}")
