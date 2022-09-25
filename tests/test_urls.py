@@ -6,7 +6,7 @@ from django.test import TestCase
 
 class UrlsTestCase(TestCase):
     """
-    This class describes a metadata test case.
+    This class describes an urls test case.
     """
 
     def test_urls(self):
