@@ -16,9 +16,13 @@ FREEZE_ROOT = getattr(
 if not os.path.isabs(FREEZE_ROOT):
     raise ImproperlyConfigured("settings.FREEZE_ROOT should be an absolute path")
 
+media_root = settings.MEDIA_ROOT
+static_root = settings.STATIC_ROOT
 if (
-    settings.MEDIA_ROOT.find(FREEZE_ROOT) == 0
-    or settings.STATIC_ROOT.find(FREEZE_ROOT) == 0
+    media_root
+    and media_root.find(FREEZE_ROOT) == 0
+    or static_root
+    and static_root.find(FREEZE_ROOT) == 0
 ):
     raise ImproperlyConfigured(
         "settings.FREEZE_ROOT cannot be a subdirectory of MEDIA_ROOT or STATIC_ROOT"
