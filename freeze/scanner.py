@@ -132,7 +132,7 @@ def scan(
             file_base_url = base_url
 
             if relative_urls:
-                file_depth = len(filter(bool, file_dirs.split("/")))
+                file_depth = len(list(filter(bool, file_dirs.split("/"))))
                 if file_depth > 0:
                     file_base_url = "../" * file_depth
                 else:
