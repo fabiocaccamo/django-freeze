@@ -40,10 +40,9 @@ FREEZE_SITE_URL = getattr(settings, "FREEZE_SITE_URL", None)
 if FREEZE_SITE_URL == None:
     # handled this way to remove DB dependency unless strictly needed.  If FREEZE_SITE_URL is set then collectstatic
     # can be called without needing a db setup, which is useful for build servers
-    FREEZE_SITE_URL = "%s%s" % (
-        FREEZE_PROTOCOL,
-        Site.objects.get_current().domain,
-    )
+    protocol = FREEZE_PROTOCOL
+    domain = Site.objects.get_current().domain
+    FREEZE_SITE_URL = f"{protocol}{domain}"
 
 FREEZE_BASE_URL = getattr(settings, "FREEZE_BASE_URL", None)
 if FREEZE_BASE_URL:

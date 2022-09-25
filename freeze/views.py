@@ -49,11 +49,7 @@ def download_static_site(request):
             )
 
             file_name_prefix = datetime.now().strftime("%Y%m%d_%H%M%S")
-            file_name = "%s_%s" % (
-                file_name_prefix,
-                settings.FREEZE_ZIP_NAME,
-            )
-
+            file_name = f"{file_name_prefix}_{settings.FREEZE_ZIP_NAME}"
             return download_zip(name=file_name)
 
         except:
@@ -68,7 +64,7 @@ def download_zip(path=settings.FREEZE_ZIP_PATH, name=settings.FREEZE_ZIP_NAME):
         FileWrapper(open(path), 8192), content_type="application/zip"
     )
     response["Content-Length"] = os.path.getsize(path)
-    response["Content-Disposition"] = "attachment; filename=%s" % (name,)
+    response["Content-Disposition"] = f"attachment; filename={name}"
     return response
 
 

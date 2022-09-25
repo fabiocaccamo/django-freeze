@@ -38,16 +38,8 @@ def scan(
     print("fetch urls...")
 
     def scan_error(req):
-
-        err = "[ERROR %s]" % (req.status_code,)
-        errs.append(
-            "%s %s"
-            % (
-                err,
-                req.url,
-            )
-        )
-
+        err = f"[ERROR {req.status_code}]"
+        errs.append(f"{err} {req.url}")
         print(err)
 
     def scan_url(url):
@@ -68,7 +60,7 @@ def scan(
         else:
             return
 
-        print("\nfetch url: %s" % (url,))
+        print(f"\nfetch url: {url}")
 
         req = requests.get(url, headers=request_headers)
         req.encoding = "utf-8"
@@ -85,7 +77,7 @@ def scan(
 
                 if req.url.find(site_url) != 0:
                     # redirected to a page of another domain
-                    print("[OK DONT FOLLOW REDIRECT] -> %s" % (req.url,))
+                    print(f"[OK DONT FOLLOW REDIRECT] -> {req.url}")
                     return
 
                 redirect_url = req.url.replace(site_url, "")
@@ -95,12 +87,12 @@ def scan(
                 }
 
                 html_str = render_to_string("freeze/redirect.html", html_data)
-                html = "%s" % (html_str,)
-                print("[OK FOLLOW REDIRECT] -> %s" % (req.url,))
+                html = f"{html_str}"
+                print(f"[OK FOLLOW REDIRECT] -> {req.url}")
 
             else:
 
-                html = "%s" % (req.text,)
+                html = f"{req.text}"
                 html = html.replace(site_url, "")
                 html = html.strip()
 
