@@ -1,6 +1,7 @@
 [![](https://img.shields.io/pypi/pyversions/django-freeze.svg?color=3776AB&logo=python&logoColor=white)](https://www.python.org/)
 [![](https://img.shields.io/pypi/djversions/django-freeze?color=0C4B33&logo=django&logoColor=white&label=django)](https://www.djangoproject.com/)
 
+[![](https://results.pre-commit.ci/badge/github/fabiocaccamo/django-freeze/master.svg)](https://results.pre-commit.ci/latest/github/fabiocaccamo/django-freeze/master)
 [![](https://img.shields.io/pypi/v/django-freeze.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/django-freeze/)
 [![](https://pepy.tech/badge/django-freeze/month)](https://pepy.tech/project/django-freeze)
 [![](https://img.shields.io/github/stars/fabiocaccamo/django-freeze?logo=github)](https://github.com/fabiocaccamo/django-freeze/)
