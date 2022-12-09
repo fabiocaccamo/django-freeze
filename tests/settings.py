@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import django
 
 SECRET_KEY = "django-freeze"

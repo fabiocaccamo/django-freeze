@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from django.urls import reverse
 from django.test import TestCase
+from django.urls import reverse
 
 
 class UrlsTestCase(TestCase):

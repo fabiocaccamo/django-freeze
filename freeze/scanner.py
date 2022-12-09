@@ -1,18 +1,16 @@
-# -*- coding: utf-8 -*-
+import logging
+import os
 
+import requests
 from django.core.mail import mail_managers
 from django.template.loader import render_to_string
 
-from freeze import settings, parser
-
-import logging
-import os
-import requests
-
+from freeze import parser, settings
 
 logger = logging.getLogger(__name__)
 
 
+# flake8: noqa: C901
 def scan(
     site_url=settings.FREEZE_SITE_URL,
     base_url=settings.FREEZE_BASE_URL,
@@ -59,7 +57,7 @@ def scan(
             if url_hash > -1:
                 url = url[0:url_hash]
 
-        if not url in memo:
+        if url not in memo:
             memo.append(url)
         else:
             return

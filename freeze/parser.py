@@ -1,17 +1,13 @@
-# -*- coding: utf-8 -*-
-
-from bs4 import BeautifulSoup
-
-from django.urls import reverse, NoReverseMatch
-
-from freeze import settings
-
 import logging
 import os
 import re
+
 import requests
 import xmltodict
+from bs4 import BeautifulSoup
+from django.urls import NoReverseMatch, reverse
 
+from freeze import settings
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +40,7 @@ def parse_sitemap_urls(
         try:
             sitemap_data = xmltodict.parse(sitemap_request.text)
             sitemap_ok = True
-        except:
+        except Exception:
             logger.info("sitemap parsing error...")
     else:
         logger.info("sitemap not found...")
@@ -119,7 +115,7 @@ def parse_html_urls(
 
 def replace_base_url(text, base_url):
 
-    if base_url != None:
+    if base_url is not None:
         media_url = settings.FREEZE_MEDIA_URL
 
         if media_url.startswith("/"):

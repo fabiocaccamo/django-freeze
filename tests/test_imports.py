@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from django.urls import reverse
 from django.test import TestCase
+from django.urls import reverse
 
 
 class ImportsTestCase(TestCase):
@@ -21,24 +19,13 @@ class ImportsTestCase(TestCase):
         )
 
     def test_imports_from_parser(self):
-        from freeze.parser import (
-            parse_sitemap_urls,
-            parse_html_urls,
-            replace_base_url,
-        )
+        from freeze.parser import parse_html_urls, parse_sitemap_urls, replace_base_url
 
     def test_imports_from_scanner(self):
-        from freeze.scanner import (
-            scan,
-        )
+        from freeze.scanner import scan
 
     def test_imports_from_views(self):
-        from freeze.views import (
-            download_static_site,
-            generate_static_site,
-        )
+        from freeze.views import download_static_site, generate_static_site
 
     def test_imports_from_writer(self):
-        from freeze.writer import (
-            write,
-        )
+        from freeze.writer import write

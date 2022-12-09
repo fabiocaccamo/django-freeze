@@ -1,17 +1,11 @@
-# -*- coding: utf-8 -*-
-
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
-from django.http import HttpResponseServerError
-from django.http import StreamingHttpResponse
-
+import os
 from datetime import datetime
-
-from freeze import scanner, settings, writer
-
 from wsgiref.util import FileWrapper
 
-import os
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, HttpResponseServerError, StreamingHttpResponse
+
+from freeze import scanner, settings, writer
 
 
 def download_static_site(request):
@@ -52,7 +46,7 @@ def download_static_site(request):
             file_name = f"{file_name_prefix}_{settings.FREEZE_ZIP_NAME}"
             return download_zip(name=file_name)
 
-        except:
+        except Exception:
             return HttpResponseServerError()
     else:
         raise PermissionDenied

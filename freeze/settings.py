@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
+import os
 
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
-
-import os
-
 
 FREEZE_ROOT = getattr(
     settings,
@@ -37,7 +34,7 @@ FREEZE_STATIC_URL = settings.STATIC_URL
 FREEZE_USE_HTTPS = getattr(settings, "FREEZE_USE_HTTPS", False)
 FREEZE_PROTOCOL = "https://" if FREEZE_USE_HTTPS else "http://"
 FREEZE_SITE_URL = getattr(settings, "FREEZE_SITE_URL", None)
-if FREEZE_SITE_URL == None:
+if FREEZE_SITE_URL is None:
     # handled this way to remove DB dependency unless strictly needed.  If FREEZE_SITE_URL is set then collectstatic
     # can be called without needing a db setup, which is useful for build servers
     protocol = FREEZE_PROTOCOL
@@ -55,7 +52,7 @@ if FREEZE_BASE_URL:
         )
 
 FREEZE_RELATIVE_URLS = getattr(settings, "FREEZE_RELATIVE_URLS", False)
-if FREEZE_RELATIVE_URLS and FREEZE_BASE_URL != None:
+if FREEZE_RELATIVE_URLS and FREEZE_BASE_URL is not None:
     raise ImproperlyConfigured(
         "settings.FREEZE_RELATIVE_URLS cannot be set to True if FREEZE_BASE_URL is specified"
     )

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-from setuptools import find_packages, setup
+import os
+import sys
 
-import os, sys
+from setuptools import find_packages, setup
 
 exec(open("freeze/metadata.py").read())
 

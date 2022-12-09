@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from django.urls import re_path
 
 from freeze.views import download_static_site, generate_static_site
-
 
 urlpatterns = [
     re_path(

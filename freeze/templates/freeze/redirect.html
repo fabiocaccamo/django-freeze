@@ -1,37 +1,37 @@
 <!doctype html>
 <html>
-    
+
     <head>
-        
+
         <meta charset="utf-8" />
-        
+
         <noscript>
             <meta http-equiv="refresh" content="0; url={{ redirect_url }}" />
         </noscript>
-        
+
         <script>
             var redirectURL = '{{ redirect_url }}';
-            
+
             {% if local_urls %}
             if(window.location.protocol.indexOf('file') == 0){
-                
+
                 if((redirectURL.length > 0) && (redirectURL.slice(-1) == String.fromCharCode(47))){
                     redirectURL += 'index.html';
                 }
             }
             {% endif %}
-            
+
             try {
-                window.location.replace(redirectURL);    
-            } 
+                window.location.replace(redirectURL);
+            }
             catch(error){
                 window.location.href = redirectURL;
             }
         </script>
-        
+
     </head>
-    
+
     <body>
     </body>
-    
+
 </html>

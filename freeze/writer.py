@@ -1,19 +1,16 @@
-# -*- coding: utf-8 -*-
-
-from freeze import settings
-
-from io import BytesIO, open
-
 import logging
 import os
 import shutil
 import tempfile
 import zipfile
+from io import BytesIO, open
 
+from freeze import settings
 
 logger = logging.getLogger(__name__)
 
 
+# flake8: noqa: C901
 def write(
     data,
     include_media=settings.FREEZE_INCLUDE_MEDIA,
