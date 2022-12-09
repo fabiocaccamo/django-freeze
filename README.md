@@ -5,7 +5,6 @@
 [![](https://img.shields.io/pypi/v/django-freeze.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/django-freeze/)
 [![](https://pepy.tech/badge/django-freeze/month)](https://pepy.tech/project/django-freeze)
 [![](https://img.shields.io/github/stars/fabiocaccamo/django-freeze?logo=github)](https://github.com/fabiocaccamo/django-freeze/)
-[![](https://badges.pufler.dev/visits/fabiocaccamo/django-freeze?label=visitors&color=blue)](https://badges.pufler.dev)
 [![](https://img.shields.io/pypi/l/django-freeze.svg?color=blue)](https://github.com/fabiocaccamo/django-freeze/blob/master/LICENSE.txt)
 
 [![](https://img.shields.io/github/workflow/status/fabiocaccamo/django-freeze/Test%20package?label=build&logo=github)](https://github.com/fabiocaccamo/django-freeze)
