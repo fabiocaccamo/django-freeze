@@ -22,3 +22,8 @@ jobs:
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           token: ${{ secrets.WORKFLOWS_CREATE_RELEASE_TOKEN }}
+
+      - name: Publish on PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.WORKFLOWS_PUBLISH_TO_PYPI_TOKEN }}
