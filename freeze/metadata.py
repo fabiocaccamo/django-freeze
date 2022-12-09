@@ -6,4 +6,4 @@ __description__ = (
 __email__ = "fabio.caccamo@gmail.com"
 __license__ = "MIT"
 __title__ = "django-freeze"
-__version__ = "0.8.0"
+__version__ = "0.9.0"
