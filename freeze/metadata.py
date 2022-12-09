@@ -1,5 +1,5 @@
 __author__ = "Fabio Caccamo"
-__copyright__ = "Copyright (c) 2016 Fabio Caccamo"
+__copyright__ = "Copyright (c) 2016-present Fabio Caccamo"
 __description__ = (
     "convert your dynamic django site to a static one with one line of code."
 )
