@@ -1,10 +1,4 @@
-import django
-
-if django.VERSION < (2, 0):
-    from django.conf.urls import include
-    from django.conf.urls import url as re_path
-else:
-    from django.urls import include, re_path
+from django.urls import include, re_path
 
 from freeze.views import download_static_site, generate_static_site
 
