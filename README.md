@@ -35,6 +35,7 @@ Just run `python manage.py generate_static_site` :)
 
 - Run `pip install django-freeze`
 - Add `freeze` to `settings.INSTALLED_APPS`
+- Enable the `sites` framework (instructions [here](https://docs.djangoproject.com/en/4.1/ref/contrib/sites/#enabling-the-sites-framework))
 - Restart your application server
 
 ## Configuration (optional)
