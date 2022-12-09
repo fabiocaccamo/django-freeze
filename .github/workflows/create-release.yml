@@ -26,11 +26,13 @@ jobs:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           token: ${{ secrets.WORKFLOWS_CREATE_RELEASE_TOKEN }}
 
-      - name: Create dist
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
           cache: 'pip'
+
+      - name: Create Built Distributions
         run: |
           pip install pip --upgrade
           pip install twine
