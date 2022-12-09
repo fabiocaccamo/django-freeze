@@ -2,8 +2,11 @@ name: Create release
 
 on:
   push:
+    branches:
+      - master
     tags:
       - '*.*.*'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,7 +26,19 @@ jobs:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           token: ${{ secrets.WORKFLOWS_CREATE_RELEASE_TOKEN }}
 
+      - name: Create dist
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+        run: |
+          pip install pip --upgrade
+          pip install twine
+          mkdir dist
+          python setup.py sdist bdist_wheel
+
       - name: Publish on PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          packages_dir: dist/
           password: ${{ secrets.WORKFLOWS_PUBLISH_TO_PYPI_TOKEN }}
