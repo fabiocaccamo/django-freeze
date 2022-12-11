@@ -61,7 +61,7 @@ jobs:
 
     - name: Run tests
       run: |
-        coverage run --append --source=freeze setup.py test
+        coverage run --append --source=freeze runtests.py
         coverage xml -o ./coverage.xml
 
     - name: Upload coverage to Codecov
