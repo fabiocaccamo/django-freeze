@@ -1,4 +1,4 @@
 codecov==2.1.12
 coverage==6.5.0
 pre-commit==2.20.0
-tox==4.0.8
+tox==4.0.9
