@@ -72,7 +72,7 @@ def generate_static_site(request):
                 zip_in_memory=False,
             )
             return HttpResponse()
-        except IOError:
+        except OSError:
             return HttpResponseServerError()
     else:
         raise PermissionDenied

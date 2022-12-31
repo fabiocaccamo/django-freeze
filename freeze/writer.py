@@ -3,7 +3,7 @@ import os
 import shutil
 import tempfile
 import zipfile
-from io import BytesIO, open
+from io import BytesIO
 
 from freeze import settings
 
