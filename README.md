@@ -4,10 +4,10 @@
 [![](https://img.shields.io/pypi/v/django-freeze.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/django-freeze/)
 [![](https://pepy.tech/badge/django-freeze/month)](https://pepy.tech/project/django-freeze)
 [![](https://img.shields.io/github/stars/fabiocaccamo/django-freeze?logo=github)](https://github.com/fabiocaccamo/django-freeze/)
-[![](https://img.shields.io/pypi/l/django-freeze.svg?color=blue)](https://github.com/fabiocaccamo/django-freeze/blob/master/LICENSE.txt)
+[![](https://img.shields.io/pypi/l/django-freeze.svg?color=blue)](https://github.com/fabiocaccamo/django-freeze/blob/main/LICENSE.txt)
 
-[![](https://results.pre-commit.ci/badge/github/fabiocaccamo/django-freeze/master.svg)](https://results.pre-commit.ci/latest/github/fabiocaccamo/django-freeze/master)
-[![](https://img.shields.io/github/actions/workflow/status/fabiocaccamo/django-freeze/test-package.yml?branch=master&label=build&logo=github)](https://github.com/fabiocaccamo/django-freeze)
+[![](https://results.pre-commit.ci/badge/github/fabiocaccamo/django-freeze/main.svg)](https://results.pre-commit.ci/latest/github/fabiocaccamo/django-freeze/main)
+[![](https://img.shields.io/github/actions/workflow/status/fabiocaccamo/django-freeze/test-package.yml?branch=main&label=build&logo=github)](https://github.com/fabiocaccamo/django-freeze)
 [![](https://img.shields.io/codecov/c/gh/fabiocaccamo/django-freeze?logo=codecov)](https://codecov.io/gh/fabiocaccamo/django-freeze)
 [![](https://img.shields.io/codacy/grade/54187bdf124644189791041589292e1b?logo=codacy)](https://www.codacy.com/app/fabiocaccamo/django-freeze)
 [![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/django-freeze?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/django-freeze/)
