@@ -35,8 +35,9 @@ FREEZE_USE_HTTPS = getattr(settings, "FREEZE_USE_HTTPS", False)
 FREEZE_PROTOCOL = "https://" if FREEZE_USE_HTTPS else "http://"
 FREEZE_SITE_URL = getattr(settings, "FREEZE_SITE_URL", None)
 if FREEZE_SITE_URL is None:
-    # handled this way to remove DB dependency unless strictly needed.  If FREEZE_SITE_URL is set then collectstatic
-    # can be called without needing a db setup, which is useful for build servers
+    # handled this way to remove DB dependency unless strictly needed.
+    # If FREEZE_SITE_URL is set then collectstatic can be called
+    # without needing a db setup, which is useful for build servers
     protocol = FREEZE_PROTOCOL
     domain = Site.objects.get_current().domain
     FREEZE_SITE_URL = f"{protocol}{domain}"
@@ -48,19 +49,22 @@ if FREEZE_BASE_URL:
             FREEZE_BASE_URL += "/"
     else:
         raise ImproperlyConfigured(
-            "settings.FREEZE_BASE_URL should start with '/' or 'http' or be an empty string"
+            "settings.FREEZE_BASE_URL should start with "
+            "'/' or 'http' or be an empty string"
         )
 
 FREEZE_RELATIVE_URLS = getattr(settings, "FREEZE_RELATIVE_URLS", False)
 if FREEZE_RELATIVE_URLS and FREEZE_BASE_URL is not None:
     raise ImproperlyConfigured(
-        "settings.FREEZE_RELATIVE_URLS cannot be set to True if FREEZE_BASE_URL is specified"
+        "settings.FREEZE_RELATIVE_URLS cannot be set "
+        "to True if FREEZE_BASE_URL is specified"
     )
 
 FREEZE_LOCAL_URLS = getattr(settings, "FREEZE_LOCAL_URLS", False)
 if FREEZE_LOCAL_URLS and not FREEZE_RELATIVE_URLS:
     raise ImproperlyConfigured(
-        "settings.FREEZE_LOCAL_URLS cannot be set to True if FREEZE_RELATIVE_URLS is set to False"
+        "settings.FREEZE_LOCAL_URLS cannot be set "
+        "to True if FREEZE_RELATIVE_URLS is set to False"
     )
 
 FREEZE_FOLLOW_SITEMAP_URLS = getattr(settings, "FREEZE_FOLLOW_SITEMAP_URLS", True)

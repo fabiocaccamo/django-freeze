@@ -23,12 +23,15 @@ def parse_sitemap_urls(
     sitemap_url = None
 
     try:
-        sitemap_url = reverse("django.contrib.sitemaps.views.sitemap")
+        sitemap_view_name = "django.contrib.sitemaps.views.sitemap"
+        sitemap_url = reverse(sitemap_view_name)
     except NoReverseMatch:
         try:
             sitemap_url = reverse("sitemap")
         except NoReverseMatch:
-            # raise NoReverseMatch('Reverse for \'django.contrib.sitemaps.views.sitemap\' or \'sitemap\' not found.')
+            raise NoReverseMatch(
+                f"Reverse for '{sitemap_view_name}' or 'sitemap' not found."
+            )
             sitemap_url = "/sitemap.xml"
 
     # load sitemap
@@ -95,7 +98,8 @@ def parse_html_urls(
                 urls.append(url)
                 continue
             elif ":" in url:
-                # probably an external link or a link like tel: mailto: skype: call: etc...
+                # probably an external link or a link like
+                # tel: mailto: skype: call: etc...
                 if external_urls and url.lower().find("http") == 0:
                     urls.append(url)
                 else:
