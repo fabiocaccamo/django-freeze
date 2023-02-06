@@ -21,7 +21,6 @@ def scan(
     report_invalid_urls=settings.FREEZE_REPORT_INVALID_URLS,
     request_headers=settings.FREEZE_REQUEST_HEADERS,
 ):
-
     if site_url.endswith("/"):
         site_url = site_url[0:-1]
 
@@ -45,9 +44,7 @@ def scan(
         logger.info(err)
 
     def scan_url(url):
-
         if url.find(site_url) == 0:
-
             # clean only static-site urls
             url_qm = url.find("?")
             if url_qm > -1:
@@ -68,7 +65,6 @@ def scan(
         req.encoding = "utf-8"
 
         if req.status_code == requests.codes.ok:
-
             if req.url.find(site_url) != 0:
                 # skip non static-site urls (external links)
                 return
@@ -76,7 +72,6 @@ def scan(
             is_redirect = req.url != url and req.history
 
             if is_redirect:
-
                 if req.url.find(site_url) != 0:
                     # redirected to a page of another domain
                     logger.info(f"[OK DONT FOLLOW REDIRECT] -> {req.url}")
@@ -93,7 +88,6 @@ def scan(
                 logger.info(f"[OK FOLLOW REDIRECT] -> {req.url}")
 
             else:
-
                 html = f"{req.text}"
                 html = html.replace(site_url, "")
                 html = html.strip()

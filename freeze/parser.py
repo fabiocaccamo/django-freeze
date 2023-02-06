@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 def parse_sitemap_urls(
     site_url=settings.FREEZE_SITE_URL, request_headers=settings.FREEZE_REQUEST_HEADERS
 ):
-
     urls = []
 
     # reverse sitemap url
@@ -73,7 +72,6 @@ def parse_html_urls(
     static_urls=False,
     external_urls=False,
 ):
-
     urls = []
     soup = BeautifulSoup(html, "html5lib")
 
@@ -118,7 +116,6 @@ def parse_html_urls(
 
 
 def replace_base_url(text, base_url):
-
     if base_url is not None:
         media_url = settings.FREEZE_MEDIA_URL
 

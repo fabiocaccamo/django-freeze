@@ -4,7 +4,6 @@ from freeze import scanner, settings, writer
 
 
 class Command(BaseCommand):
-
     help = "Generate static site."
 
     def handle(self, **options):

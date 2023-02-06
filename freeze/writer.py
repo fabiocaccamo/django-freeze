@@ -19,7 +19,6 @@ def write(
     zip_all=settings.FREEZE_ZIP_ALL,
     zip_in_memory=False,
 ):
-
     if os.path.exists(settings.FREEZE_ROOT):
         shutil.rmtree(settings.FREEZE_ROOT)
 
