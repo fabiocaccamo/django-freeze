@@ -1,5 +1,3 @@
-import django
-
 SECRET_KEY = "django-freeze"
 
 ALLOWED_HOSTS = ["*"]

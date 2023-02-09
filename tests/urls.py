@@ -1,4 +1,4 @@
-from django.urls import include, path
+from django.urls import path
 
 from freeze.views import download_static_site, generate_static_site
 
