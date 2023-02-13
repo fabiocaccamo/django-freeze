@@ -128,7 +128,9 @@ def write(
             include_dir = False
             if include_media_dirs:
                 for media_dir in include_media:
-                    media_dir_path = os.path.join(settings.FREEZE_MEDIA_ROOT + media_dir)
+                    media_dir_path = os.path.join(
+                        settings.FREEZE_MEDIA_ROOT + media_dir
+                    )
                     if root.find(media_dir_path) == 0:
                         include_dir = True
                         break
