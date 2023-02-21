@@ -150,7 +150,8 @@ def replace_base_url(text, base_url):
         text = re.sub(r"(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")", sub_base_url, text)
         text = re.sub(r"(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')", sub_base_url, text)
 
-        # replace base url in case of <meta http-equiv="refresh" content="0; url=/en/" />
+        # replace base url in case of
+        # <meta http-equiv="refresh" content="0; url=/en/" />
         text = re.sub(r"url=/", "url=" + base_url, text)
 
         # replace base url in sitemap.xml
