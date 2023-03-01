@@ -27,11 +27,11 @@ def parse_sitemap_urls(
     except NoReverseMatch:
         try:
             sitemap_url = reverse("sitemap")
-        except NoReverseMatch:
+        except NoReverseMatch as error:
+            # sitemap_url = "/sitemap.xml"
             raise NoReverseMatch(
-                f"Reverse for '{sitemap_view_name}' or 'sitemap' not found."
-            )
-            sitemap_url = "/sitemap.xml"
+                f"Reverse for {sitemap_view_name!r} or 'sitemap' not found."
+            ) from error
 
     # load sitemap
     sitemap_url = site_url + sitemap_url
