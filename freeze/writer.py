@@ -80,7 +80,7 @@ def write(
 
         include_static_dirs = isinstance(include_static, (list, tuple))
 
-        for root, dirs, files in os.walk(settings.FREEZE_STATIC_ROOT):
+        for root, _dirs, files in os.walk(settings.FREEZE_STATIC_ROOT):
             include_dir = False
             if include_static_dirs:
                 for static_dir in include_static:
@@ -124,7 +124,7 @@ def write(
             logger.info("\ncopy media files...")
 
         include_media_dirs = isinstance(include_media, (list, tuple))
-        for root, dirs, files in os.walk(settings.FREEZE_MEDIA_ROOT):
+        for root, _dirs, files in os.walk(settings.FREEZE_MEDIA_ROOT):
             include_dir = False
             if include_media_dirs:
                 for media_dir in include_media:
