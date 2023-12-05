@@ -11,7 +11,8 @@
 [![](https://img.shields.io/codecov/c/gh/fabiocaccamo/django-freeze?logo=codecov)](https://codecov.io/gh/fabiocaccamo/django-freeze)
 [![](https://img.shields.io/codacy/grade/54187bdf124644189791041589292e1b?logo=codacy)](https://www.codacy.com/app/fabiocaccamo/django-freeze)
 [![](https://img.shields.io/codeclimate/maintainability/fabiocaccamo/django-freeze?logo=code-climate)](https://codeclimate.com/github/fabiocaccamo/django-freeze/)
-[![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![](https://img.shields.io/badge/code%20style-black-000000.svg?logo=python&logoColor=black)](https://github.com/psf/black)
+[![](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 # django-freeze
 django-freeze generates the static version of your django site.
