@@ -105,7 +105,7 @@ def scan(
                         + "</script></body>",
                     )
 
-                html = html.encode("utf-8")
+                html = html.encode("utf-8").decode("utf-8")
                 logger.info("[OK]")
 
             path = os.path.normpath(url.replace(site_url, ""))
