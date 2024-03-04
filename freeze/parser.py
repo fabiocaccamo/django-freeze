@@ -113,7 +113,7 @@ def parse_html_urls(
             else:
                 # since it's a relative url let's merge it with the current page path
                 url = os.path.normpath(
-                    os.path.abspath(os.path.normpath(base_url + "/" + url))
+                    os.path.abspath(os.path.normpath(f"{base_url}/{url}"))
                 )
                 url = site_url + url
                 urls.append(url)
@@ -123,46 +123,55 @@ def parse_html_urls(
     return urls
 
 
-def replace_base_url(text, base_url):
-    if base_url is not None:
-        media_url = settings.FREEZE_MEDIA_URL
-
-        if media_url.startswith("/"):
+def replace_base_url_on_media_and_static_urls(text, base_url):
+    # static and media urls should start with "/"
+    media_url = settings.FREEZE_MEDIA_URL
+    static_url = settings.FREEZE_STATIC_URL
+    for url in (media_url, static_url):
+        if url.startswith("/"):
             # fix media double slashes mistake
-            text = text.replace("/" + media_url, media_url)
-            # replace base url for media urls outside quotes
+            text = text.replace(f"/{url}", url)
+            # replace base url for urls outside quotes
             text = re.sub(
-                r"([^\"\'\-\_\w\d])" + media_url, r"\1" + base_url + media_url[1:], text
-            )
-
-        # replace base url for static urls in case of urls without "" or ''
-        static_url = settings.FREEZE_STATIC_URL
-
-        if static_url.startswith("/"):
-            # fix static double slashes mistake
-            text = text.replace("/" + static_url, static_url)
-            # replace base url for static urls outside quotes
-            text = re.sub(
-                r"([^\"\'\-\_\w\d])" + static_url,
-                r"\1" + base_url + static_url[1:],
+                r"([^\"\'\-\_\w\d])" + url,
+                r"\1" + base_url + url[1:],
                 text,
             )
+    return text
 
-        # replace base url for all urls relative to root between "" or ''
-        def sub_base_url(match_obj):
-            startquote = match_obj.group(1)
-            url = match_obj.group(4) or ""
-            endquote = match_obj.group(6)
-            return startquote + base_url + url + endquote
 
-        text = re.sub(r"(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")", sub_base_url, text)
-        text = re.sub(r"(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')", sub_base_url, text)
+def replace_base_url_on_urls_relative_to_root(text, base_url):
+    # replace base url for all urls relative to root between "" or ''
+    def sub_base_url(match_obj):
+        startquote = match_obj.group(1)
+        url = match_obj.group(4) or ""
+        endquote = match_obj.group(6)
+        return startquote + base_url + url + endquote
 
-        # replace base url in case of
-        # <meta http-equiv="refresh" content="0; url=/en/" />
-        text = re.sub(r"url=/", "url=" + base_url, text)
+    text = re.sub(r"(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")", sub_base_url, text)
+    text = re.sub(r"(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')", sub_base_url, text)
+    return text
 
-        # replace base url in sitemap.xml
-        text = re.sub(r"<loc>/", "<loc>" + base_url, text)
+
+def replace_base_url(text, base_url):
+    if base_url is None:
+        return text
+
+    text = replace_base_url_on_media_and_static_urls(
+        text=text,
+        base_url=base_url,
+    )
+
+    text = replace_base_url_on_urls_relative_to_root(
+        text=text,
+        base_url=base_url,
+    )
+
+    # replace base url in case of
+    # <meta http-equiv="refresh" content="0; url=/en/" />
+    text = re.sub(r"url=/", f"url={base_url}", text)
+
+    # replace base url in sitemap.xml
+    text = re.sub(r"<loc>/", f"<loc>{base_url}", text)
 
     return text
