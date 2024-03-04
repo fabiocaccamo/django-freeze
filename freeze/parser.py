@@ -8,13 +8,18 @@ from bs4 import BeautifulSoup
 from django.urls import NoReverseMatch, reverse
 
 from freeze import settings
+from freeze.sites import get_site_url
 
 logger = logging.getLogger(__name__)
 
 
 def parse_sitemap_urls(
-    site_url=settings.FREEZE_SITE_URL, request_headers=settings.FREEZE_REQUEST_HEADERS
+    site_url=settings.FREEZE_SITE_URL,
+    request_headers=settings.FREEZE_REQUEST_HEADERS,
 ):
+    if site_url is None:
+        site_url = get_site_url()
+
     urls = []
 
     # reverse sitemap url
@@ -72,6 +77,9 @@ def parse_html_urls(
     static_urls=False,
     external_urls=False,
 ):
+    if site_url is None:
+        site_url = get_site_url()
+
     urls = []
     soup = BeautifulSoup(html, "html5lib")
 

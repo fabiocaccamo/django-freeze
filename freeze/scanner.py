@@ -6,6 +6,7 @@ from django.core.mail import mail_managers
 from django.template.loader import render_to_string
 
 from freeze import parser, settings
+from freeze.sites import get_site_url
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +22,9 @@ def scan(
     report_invalid_urls=settings.FREEZE_REPORT_INVALID_URLS,
     request_headers=settings.FREEZE_REQUEST_HEADERS,
 ):
+    if site_url is None:
+        site_url = get_site_url()
+
     if site_url.endswith("/"):
         site_url = site_url[0:-1]
 

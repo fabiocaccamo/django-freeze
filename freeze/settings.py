@@ -1,7 +1,6 @@
 import os
 
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 
 FREEZE_ROOT = getattr(
@@ -22,25 +21,42 @@ if (
     and static_root.find(FREEZE_ROOT) == 0
 ):
     raise ImproperlyConfigured(
-        "settings.FREEZE_ROOT cannot be a subdirectory of MEDIA_ROOT or STATIC_ROOT"
+        "settings.FREEZE_ROOT can't be a subdirectory of MEDIA_ROOT or STATIC_ROOT"
     )
 
 FREEZE_MEDIA_ROOT = settings.MEDIA_ROOT
 FREEZE_MEDIA_URL = settings.MEDIA_URL
 
+if not FREEZE_MEDIA_ROOT:
+    raise ImproperlyConfigured(
+        "settings.FREEZE_MEDIA_ROOT can't be None, "
+        "please configure settings.MEDIA_ROOT"
+    )
+
+if not FREEZE_MEDIA_URL:
+    raise ImproperlyConfigured(
+        "settings.FREEZE_MEDIA_URL can't be None, "
+        "please configure settings.FREEZE_MEDIA_URL"
+    )
+
 FREEZE_STATIC_ROOT = settings.STATIC_ROOT
 FREEZE_STATIC_URL = settings.STATIC_URL
+
+if not FREEZE_STATIC_ROOT:
+    raise ImproperlyConfigured(
+        "settings.FREEZE_STATIC_ROOT can't be None, "
+        "please configure settings.STATIC_ROOT"
+    )
+
+if not FREEZE_STATIC_URL:
+    raise ImproperlyConfigured(
+        "settings.FREEZE_STATIC_URL can't be None, "
+        "please configure settings.STATIC_URL"
+    )
 
 FREEZE_USE_HTTPS = getattr(settings, "FREEZE_USE_HTTPS", False)
 FREEZE_PROTOCOL = "https://" if FREEZE_USE_HTTPS else "http://"
 FREEZE_SITE_URL = getattr(settings, "FREEZE_SITE_URL", None)
-if FREEZE_SITE_URL is None:
-    # handled this way to remove DB dependency unless strictly needed.
-    # If FREEZE_SITE_URL is set then collectstatic can be called
-    # without needing a db setup, which is useful for build servers
-    protocol = FREEZE_PROTOCOL
-    domain = Site.objects.get_current().domain
-    FREEZE_SITE_URL = f"{protocol}{domain}"
 
 FREEZE_BASE_URL = getattr(settings, "FREEZE_BASE_URL", None)
 if FREEZE_BASE_URL:
@@ -56,14 +72,14 @@ if FREEZE_BASE_URL:
 FREEZE_RELATIVE_URLS = getattr(settings, "FREEZE_RELATIVE_URLS", False)
 if FREEZE_RELATIVE_URLS and FREEZE_BASE_URL is not None:
     raise ImproperlyConfigured(
-        "settings.FREEZE_RELATIVE_URLS cannot be set "
+        "settings.FREEZE_RELATIVE_URLS can't be set "
         "to True if FREEZE_BASE_URL is specified"
     )
 
 FREEZE_LOCAL_URLS = getattr(settings, "FREEZE_LOCAL_URLS", False)
 if FREEZE_LOCAL_URLS and not FREEZE_RELATIVE_URLS:
     raise ImproperlyConfigured(
-        "settings.FREEZE_LOCAL_URLS cannot be set "
+        "settings.FREEZE_LOCAL_URLS can't be set "
         "to True if FREEZE_RELATIVE_URLS is set to False"
     )
 
