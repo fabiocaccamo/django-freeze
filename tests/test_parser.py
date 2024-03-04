@@ -40,7 +40,7 @@ class ParserTestCase(TransactionTestCase):
 
     def test_replace_base_url_on_meta_http_equiv_refresh(self):
         text_result = replace_base_url(
-            text="""<meta http-equiv="refresh" content="0; url=/en/" />""",
+            text="""<meta http-equiv="refresh" content="0; url=/en/">""",
             base_url="https://django-freeze.com/",
         )
         self.assertEqual(
