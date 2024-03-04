@@ -1,3 +1,7 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 SECRET_KEY = "django-freeze"
 
 ALLOWED_HOSTS = ["*"]
@@ -50,3 +54,9 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "freeze/public/media/")
+MEDIA_URL = "/media/"
+
+STATIC_ROOT = os.path.join(BASE_DIR, "freeze/public/static/")
+STATIC_URL = "/static/"
