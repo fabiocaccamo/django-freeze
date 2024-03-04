@@ -110,11 +110,7 @@ def scan(
 
             path = os.path.normpath(url.replace(site_url, ""))
 
-            if (
-                path.endswith(".html")
-                or path.endswith("sitemap.xml")
-                or path.endswith("robots.txt")
-            ):
+            if path.endswith((".html", "sitemap.xml", "robots.txt")):
                 logger.debug(f"path (file) -> {path}")
                 file_slash = path.rfind("/") + 1
                 file_dirs = path[0:file_slash]
