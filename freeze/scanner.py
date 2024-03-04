@@ -28,7 +28,7 @@ def scan(
     if site_url.endswith("/"):
         site_url = site_url[0:-1]
 
-    home_url = site_url + "/"
+    home_url = f"{site_url}/"
     sitemap_urls = parser.parse_sitemap_urls()
 
     urls_data = []
@@ -116,7 +116,7 @@ def scan(
                 file_dirs = path[0:file_slash]
                 file_name = path[file_slash:]
             else:
-                logger.debug("path -> " + path)
+                logger.debug(f"path (dir) -> {path}")
                 file_dirs = path
                 file_name = "index.html"
 
@@ -132,11 +132,11 @@ def scan(
 
             file_data = parser.replace_base_url(html, file_base_url)
 
-            logger.debug("file dirs: " + file_dirs)
-            logger.debug("file name: " + file_name)
-            logger.debug("file path: " + file_path)
-            logger.debug("file base url: " + file_base_url)
-            logger.debug("file data: " + file_data)
+            logger.debug(f"file dirs: {file_dirs}")
+            logger.debug(f"file name: {file_name}")
+            logger.debug(f"file path: {file_path}")
+            logger.debug(f"file base url: {file_base_url}")
+            logger.debug(f"file data: {file_data}")
             logger.debug("---")
 
             urls_data.append(

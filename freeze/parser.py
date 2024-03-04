@@ -39,7 +39,7 @@ def parse_sitemap_urls(
             ) from error
 
     # load sitemap
-    sitemap_url = site_url + sitemap_url
+    sitemap_url = f"{site_url}{sitemap_url}"
     sitemap_request = requests.get(sitemap_url, headers=request_headers)
     sitemap_request.encoding = "utf-8"
 
@@ -100,7 +100,7 @@ def parse_html_urls(
                 continue
             elif url[0] == "/":
                 # url already start from the site root
-                url = site_url + url
+                url = f"{site_url}{url}"
                 urls.append(url)
                 continue
             elif ":" in url:
@@ -115,7 +115,7 @@ def parse_html_urls(
                 url = os.path.normpath(
                     os.path.abspath(os.path.normpath(f"{base_url}/{url}"))
                 )
-                url = site_url + url
+                url = f"{site_url}{url}"
                 urls.append(url)
 
     urls = list(set(urls))
@@ -146,7 +146,7 @@ def replace_base_url_on_urls_relative_to_root(text, base_url):
         startquote = match_obj.group(1)
         url = match_obj.group(4) or ""
         endquote = match_obj.group(6)
-        return startquote + base_url + url + endquote
+        return f"{startquote}{base_url}{url}{endquote}"
 
     text = re.sub(r"(\")((\/)([^\/](\\\"|(?!\").)*)?)(\")", sub_base_url, text)
     text = re.sub(r"(\')((\/)([^\/](\\\'|(?!\').)*)?)(\')", sub_base_url, text)
