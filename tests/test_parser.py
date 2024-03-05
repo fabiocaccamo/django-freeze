@@ -1,9 +1,9 @@
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 from freeze.parser import replace_base_url
 
 
-class ParserTestCase(TransactionTestCase):
+class ParserTestCase(TestCase):
     """
     This class describes a parser test case.
     """
