@@ -1,6 +1,7 @@
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from freeze import scanner, settings, writer
+from freeze import scanner, writer
 
 
 class Command(BaseCommand):

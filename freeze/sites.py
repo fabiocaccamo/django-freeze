@@ -1,6 +1,5 @@
+from django.conf import settings
 from django.contrib.sites.models import Site
-
-from freeze import settings
 
 
 def get_site_url():

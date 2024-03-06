@@ -1,3 +1,5 @@
+from django.core.exceptions import ImproperlyConfigured
+
 from freeze.metadata import (
     __author__,
     __copyright__,
@@ -6,6 +8,12 @@ from freeze.metadata import (
     __title__,
     __version__,
 )
+
+try:
+    from freeze import settings  # noqa: F401
+except ImproperlyConfigured:
+    pass
+
 
 __all__ = [
     "__author__",

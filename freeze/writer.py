@@ -5,7 +5,7 @@ import tempfile
 import zipfile
 from io import BytesIO
 
-from freeze import settings
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 

@@ -2,10 +2,11 @@ import logging
 import os
 
 import requests
+from django.conf import settings
 from django.core.mail import mail_managers
 from django.template.loader import render_to_string
 
-from freeze import parser, settings
+from freeze import parser
 from freeze.sites import get_site_url
 
 logger = logging.getLogger(__name__)

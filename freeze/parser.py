@@ -5,9 +5,9 @@ import re
 import requests
 import xmltodict
 from bs4 import BeautifulSoup
+from django.conf import settings
 from django.urls import NoReverseMatch, reverse
 
-from freeze import settings
 from freeze.sites import get_site_url
 
 logger = logging.getLogger(__name__)

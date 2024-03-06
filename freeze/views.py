@@ -2,10 +2,11 @@ import os
 from datetime import datetime
 from wsgiref.util import FileWrapper
 
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseServerError, StreamingHttpResponse
 
-from freeze import scanner, settings, writer
+from freeze import scanner, writer
 
 
 def download_static_site(request):
