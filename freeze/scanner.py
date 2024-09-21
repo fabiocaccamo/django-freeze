@@ -30,12 +30,12 @@ def scan(
         site_url = site_url[0:-1]
 
     home_url = f"{site_url}/"
-    sitemap_urls = parser.parse_sitemap_urls()
 
     urls_data = []
     urls = [home_url]
 
     if follow_sitemap_urls:
+        sitemap_urls = parser.parse_sitemap_urls()
         urls += sitemap_urls
 
     memo = []
