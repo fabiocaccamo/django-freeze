@@ -29,8 +29,7 @@ if not hasattr(settings, "FREEZE_MEDIA_ROOT"):
 
 if not settings.FREEZE_MEDIA_ROOT:
     raise ImproperlyConfigured(
-        "settings.FREEZE_MEDIA_ROOT can't be None, "
-        "please configure settings.MEDIA_ROOT"
+        "settings.FREEZE_MEDIA_ROOT can't be None, please configure settings.MEDIA_ROOT"
     )
 
 if not hasattr(settings, "FREEZE_MEDIA_URL"):
@@ -38,8 +37,7 @@ if not hasattr(settings, "FREEZE_MEDIA_URL"):
 
 if not settings.FREEZE_MEDIA_URL:
     raise ImproperlyConfigured(
-        "settings.FREEZE_MEDIA_URL can't be None, "
-        "please configure settings.MEDIA_URL"
+        "settings.FREEZE_MEDIA_URL can't be None, please configure settings.MEDIA_URL"
     )
 
 if not hasattr(settings, "FREEZE_STATIC_ROOT"):
@@ -56,8 +54,7 @@ if not hasattr(settings, "FREEZE_STATIC_URL"):
 
 if not settings.FREEZE_STATIC_URL:
     raise ImproperlyConfigured(
-        "settings.FREEZE_STATIC_URL can't be None, "
-        "please configure settings.STATIC_URL"
+        "settings.FREEZE_STATIC_URL can't be None, please configure settings.STATIC_URL"
     )
 
 if not hasattr(settings, "FREEZE_USE_HTTPS"):
