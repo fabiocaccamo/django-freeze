@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0](https://github.com/fabiocaccamo/django-freeze/releases/tag/0.12.0) - 2025-04-03
+-   Add `Django 5.2` support.
+-   Bump `pre-commit` hooks.
+-   Bump requirements.
+
 ## [0.11.1](https://github.com/fabiocaccamo/django-freeze/releases/tag/0.11.1) - 2024-09-21
 -   Parse sitemap urls only if needed. #136
 -   Bump test requirements.
