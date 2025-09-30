@@ -42,7 +42,7 @@ classifiers = [
 ]
 dependencies = [
     "beautifulsoup4 >= 4.11.1",
-    "requests >= 2.28.1",
+    "requests >= 2.32.4",
     "xmltodict >= 0.13.0",
 ]
 dynamic = ["version"]
