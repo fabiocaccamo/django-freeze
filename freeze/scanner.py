@@ -52,15 +52,14 @@ def scan(
         if not url.startswith(site_url):
             return
 
-        if url.find(site_url) == 0:
-            # clean only static-site urls
-            url_qm = url.find("?")
-            if url_qm > -1:
-                url = url[0:url_qm]
+        # clean static-site urls
+        url_qm = url.find("?")
+        if url_qm > -1:
+            url = url[0:url_qm]
 
-            url_hash = url.find("#")
-            if url_hash > -1:
-                url = url[0:url_hash]
+        url_hash = url.find("#")
+        if url_hash > -1:
+            url = url[0:url_hash]
 
         if url not in memo:
             memo.append(url)
