@@ -61,7 +61,8 @@ def parse_sitemap_urls(
 
         for sitemap_url_data in sitemap_urls_data:
             url = sitemap_url_data.get("loc", "")
-            urls.append(url)
+            if url.startswith(site_url):
+                urls.append(url)
 
         urls = list(set(urls))
         urls.sort()

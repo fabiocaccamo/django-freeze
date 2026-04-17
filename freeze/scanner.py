@@ -49,6 +49,9 @@ def scan(
         logger.info(err)
 
     def scan_url(url):
+        if not url.startswith(site_url):
+            return
+
         if url.find(site_url) == 0:
             # clean only static-site urls
             url_qm = url.find("?")
