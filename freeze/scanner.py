@@ -49,15 +49,17 @@ def scan(
         logger.info(err)
 
     def scan_url(url):
-        if url.find(site_url) == 0:
-            # clean only static-site urls
-            url_qm = url.find("?")
-            if url_qm > -1:
-                url = url[0:url_qm]
+        if not url.startswith(site_url):
+            return
 
-            url_hash = url.find("#")
-            if url_hash > -1:
-                url = url[0:url_hash]
+        # clean static-site urls
+        url_qm = url.find("?")
+        if url_qm > -1:
+            url = url[0:url_qm]
+
+        url_hash = url.find("#")
+        if url_hash > -1:
+            url = url[0:url_hash]
 
         if url not in memo:
             memo.append(url)
