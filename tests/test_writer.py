@@ -1,3 +1,4 @@
+import io
 import os
 import tempfile
 import zipfile
@@ -126,7 +127,6 @@ class WriterTestCase(TestCase):
 
             self.assertIsNotNone(result)
             self.assertIsInstance(result, bytes)
-            import io
 
             with zipfile.ZipFile(io.BytesIO(result)) as zf:
                 names = zf.namelist()
