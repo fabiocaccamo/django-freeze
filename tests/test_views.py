@@ -67,7 +67,9 @@ class ViewsTestCase(TestCase):
     ):
         from django.http import HttpResponse
 
-        mock_download.return_value = HttpResponse(b"zipdata", content_type="application/zip")
+        mock_download.return_value = HttpResponse(
+            b"zipdata", content_type="application/zip"
+        )
         self.client.login(username="staff", password="pass")
         response = self.client.get(reverse("freeze_download_static_site"))
         self.assertEqual(response.status_code, 200)
@@ -100,9 +102,7 @@ class ViewsTestCase(TestCase):
 
         mock_download.return_value = HttpResponse(b"z", content_type="application/zip")
         self.client.login(username="staff", password="pass")
-        self.client.get(
-            reverse("freeze_download_static_site") + "?include_media=0"
-        )
+        self.client.get(reverse("freeze_download_static_site") + "?include_media=0")
         _, kwargs = mock_write.call_args
         self.assertFalse(kwargs.get("include_media", True))
 
@@ -116,9 +116,7 @@ class ViewsTestCase(TestCase):
 
         mock_download.return_value = HttpResponse(b"z", content_type="application/zip")
         self.client.login(username="staff", password="pass")
-        self.client.get(
-            reverse("freeze_download_static_site") + "?include_static=0"
-        )
+        self.client.get(reverse("freeze_download_static_site") + "?include_static=0")
         _, kwargs = mock_write.call_args
         self.assertFalse(kwargs.get("include_static", True))
 

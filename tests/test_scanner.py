@@ -48,11 +48,7 @@ class ScannerTestCase(TestCase):
     def test_scan_follows_html_urls(self, mock_get):
         with tempfile.TemporaryDirectory() as freeze_root:
             site_url = "http://localhost"
-            home_html = (
-                '<html><body>'
-                '<a href="/about/">about</a>'
-                '</body></html>'
-            )
+            home_html = '<html><body><a href="/about/">about</a></body></html>'
             about_html = "<html><body>about page</body></html>"
 
             def side_effect(url, headers=None):
@@ -83,9 +79,7 @@ class ScannerTestCase(TestCase):
         with tempfile.TemporaryDirectory() as freeze_root:
             site_url = "http://localhost"
             home_html = (
-                '<html><body>'
-                '<a href="http://external.com/">external</a>'
-                '</body></html>'
+                '<html><body><a href="http://external.com/">external</a></body></html>'
             )
             mock_get.return_value = _mock_response(text=home_html, url=f"{site_url}/")
 
@@ -104,23 +98,22 @@ class ScannerTestCase(TestCase):
 
     @patch("freeze.scanner.requests.get")
     def test_scan_strips_query_string_and_fragment(self, mock_get):
-        with tempfile.TemporaryDirectory() as freeze_root:
-            site_url = "http://localhost"
+        site_url = "http://localhost"
 
-            def side_effect(url, headers=None):
-                clean_url = url.split("?")[0].split("#")[0]
-                return _mock_response(text="<html></html>", url=clean_url)
+        def side_effect(url, headers=None):
+            clean_url = url.split("?")[0].split("#")[0]
+            return _mock_response(text="<html></html>", url=clean_url)
 
-            mock_get.side_effect = side_effect
+        mock_get.side_effect = side_effect
 
-            from freeze.scanner import scan
+        from freeze.scanner import scan
 
-            results = scan(
-                site_url=site_url,
-                follow_sitemap_urls=False,
-                follow_html_urls=False,
-                report_invalid_urls=False,
-            )
+        results = scan(
+            site_url=site_url,
+            follow_sitemap_urls=False,
+            follow_html_urls=False,
+            report_invalid_urls=False,
+        )
 
         self.assertEqual(len(results), 1)
 
@@ -170,20 +163,17 @@ class ScannerTestCase(TestCase):
     @patch("freeze.scanner.requests.get")
     def test_scan_file_path_for_home_is_index_html(self, mock_get):
         """The home URL '/' should produce file_path '/index.html'."""
-        with tempfile.TemporaryDirectory() as freeze_root:
-            site_url = "http://localhost"
-            mock_get.return_value = _mock_response(
-                text="<html></html>", url=f"{site_url}/"
-            )
+        site_url = "http://localhost"
+        mock_get.return_value = _mock_response(text="<html></html>", url=f"{site_url}/")
 
-            from freeze.scanner import scan
+        from freeze.scanner import scan
 
-            results = scan(
-                site_url=site_url,
-                follow_sitemap_urls=False,
-                follow_html_urls=False,
-                report_invalid_urls=False,
-            )
+        results = scan(
+            site_url=site_url,
+            follow_sitemap_urls=False,
+            follow_html_urls=False,
+            report_invalid_urls=False,
+        )
 
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0]["file_path"], os.path.normpath("/index.html"))
@@ -213,8 +203,6 @@ class ScannerTestCase(TestCase):
                 text="<html></html>", url="http://localhost/"
             )
 
-            results = self._run_scan(
-                freeze_root, site_url=site_url_with_slash
-            )
+            results = self._run_scan(freeze_root, site_url=site_url_with_slash)
 
         self.assertEqual(len(results), 1)

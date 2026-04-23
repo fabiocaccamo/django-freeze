@@ -3,7 +3,6 @@ import os
 import tempfile
 import zipfile
 
-from django.conf import settings
 from django.test import TestCase, override_settings
 
 from freeze.writer import write
@@ -192,9 +191,7 @@ class WriterTestCase(TestCase):
             ):
                 write(data, include_media=False, include_static=True, zip_all=False)
 
-            self.assertTrue(
-                os.path.isfile(os.path.join(freeze_root, "app.css"))
-            )
+            self.assertTrue(os.path.isfile(os.path.join(freeze_root, "app.css")))
 
     def test_write_include_media(self):
         with tempfile.TemporaryDirectory() as tmp:
