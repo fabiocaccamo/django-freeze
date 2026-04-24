@@ -42,6 +42,7 @@ classifiers = [
 ]
 dependencies = [
     "beautifulsoup4 >= 4.11.1",
+    "html5lib >= 1.1",
     "requests >= 2.32.4",
     "xmltodict >= 0.13.0",
 ]
