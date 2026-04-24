@@ -1,6 +1,9 @@
+import importlib
 import os
 
 from django.conf import settings
+from django.conf import settings as django_settings
+from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 
 
@@ -93,3 +96,49 @@ class SettingsTestCase(TestCase):
         self.assertTrue(hasattr(settings, "FREEZE_REQUEST_HEADERS"))
         self.assertIsInstance(settings.FREEZE_REQUEST_HEADERS, dict)
         self.assertIn("user-agent", settings.FREEZE_REQUEST_HEADERS)
+
+
+class FreezeSettingsValidationTestCase(TestCase):
+    """Tests that freeze.settings raises ImproperlyConfigured for invalid configs."""
+
+    def _clear_freeze_settings(self):
+        for k in list(django_settings.__dict__):
+            if k.startswith("FREEZE_"):
+                del django_settings.__dict__[k]
+
+    def _assert_improper_configuration(self, **freeze_overrides):
+        """
+        Remove all current FREEZE_* attrs from settings, apply freeze_overrides,
+        reload freeze.settings, assert ImproperlyConfigured is raised, then
+        restore the original FREEZE_* state.
+        """
+        import freeze.settings as freeze_settings
+
+        saved = {
+            k: v for k, v in django_settings.__dict__.items() if k.startswith("FREEZE_")
+        }
+        self._clear_freeze_settings()
+        for k, v in freeze_overrides.items():
+            django_settings.__dict__[k] = v
+
+        try:
+            with self.assertRaises(ImproperlyConfigured):
+                importlib.reload(freeze_settings)
+        finally:
+            self._clear_freeze_settings()
+            django_settings.__dict__.update(saved)
+
+    def test_freeze_root_must_be_absolute_path(self):
+        self._assert_improper_configuration(FREEZE_ROOT="relative/path")
+
+    def test_freeze_base_url_and_relative_urls_are_mutually_exclusive(self):
+        self._assert_improper_configuration(
+            FREEZE_BASE_URL="/prefix/",
+            FREEZE_RELATIVE_URLS=True,
+        )
+
+    def test_freeze_local_urls_requires_relative_urls(self):
+        self._assert_improper_configuration(
+            FREEZE_LOCAL_URLS=True,
+            FREEZE_RELATIVE_URLS=False,
+        )
