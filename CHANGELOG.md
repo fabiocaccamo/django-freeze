@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0](https://github.com/fabiocaccamo/django-freeze/releases/tag/0.13.0) - 2026-05-11
+-   Add `Python 3.14` support.
+-   Add `Django 6.0` support.
+-   Drop `Django < 4.2` support.
+-   Fix HIGH-severity SSRF vulnerability (`CVE-2026-25645`).
+-   Add unit tests for uncovered modules.
+-   Add `OpenSSF Scorecard` workflow.
+-   Pin actions to SHA and fix permissions.
+-   Bump requirements.
+-   Bump `pre-commit` hooks.
+-   Bump GitHub actions.
+
 ## [0.12.0](https://github.com/fabiocaccamo/django-freeze/releases/tag/0.12.0) - 2025-04-03
 -   Add `Django 5.2` support.
 -   Bump `pre-commit` hooks.
