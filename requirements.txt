@@ -1,5 +1,5 @@
-django >= 4.2
+django >= 6.0.5
 beautifulsoup4==4.14.3
 html5lib==1.1
-requests==2.33.1
+requests==2.34.2
 xmltodict==1.0.4
