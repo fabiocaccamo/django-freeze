@@ -99,8 +99,7 @@ def write(
             for file in files:
                 file_src_path = os.path.join(root, file)
                 file_dst_path = file_src_path
-                if file_dst_path.startswith(settings.FREEZE_STATIC_ROOT):
-                    file_dst_path = file_dst_path[len(settings.FREEZE_STATIC_ROOT) :]
+                file_dst_path = file_dst_path.removeprefix(settings.FREEZE_STATIC_ROOT)
                 if file_dst_path.startswith("/"):
                     file_dst_path = file_dst_path[1:]
 
